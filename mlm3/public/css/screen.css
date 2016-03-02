@@ -1,0 +1,116 @@
+/*Media Quaries*/
+
+@media (min-width:480px) {}
+
+@media (min-width:768px) {}
+
+@media (min-width:992px) {}
+
+@media (min-width:1200px) {
+	.container {
+		width: 1024px;
+	}
+}
+
+@media (max-width:479px) {
+	.form-submit-button {
+		font-size: 11px;
+		height: 26px;
+	}
+	.remember-sign {
+		font-size: 10px;
+    }
+	.navigations ul li a {
+		padding: 14px 18px;
+    }
+}
+
+@media (max-width:767px) {
+	.header {
+		padding:15px 0;
+	}
+	.logo {
+		text-align: center;
+		margin-bottom: 15px;
+	}
+	.header-form-section {
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.join-form {
+		float: none;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 20px;
+		margin-bottom: 10px;
+	}
+	.front-page-title {
+		margin-top: 30px;
+		margin-bottom: 25px;
+	}
+	.sidebar-ads img {
+		max-width: 320px;
+		width: 100%;
+	}
+	.step-label-col {
+		width: 100%;
+    }
+	.step-input-field {
+		width: 100%;
+	}
+	.relationship-field {
+		max-width: 100%;
+	}
+	.form-tagline {
+		font-size: 18px;
+	}
+	.join-form-body {
+		padding: 20px;
+    }
+	.uploaded-image-part {
+		width: 100%;
+		margin-bottom: 30px;
+	}
+	.upload-form-part {
+		float: none;
+		width: 100%;
+		max-width: 250px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.step-3-form-body {
+		padding: 30px 20px;
+	}
+	
+	input.file-upload {
+		margin-left: 0;
+    }
+	.direct-referral-counting {
+		margin-left: 0;
+	}
+	.in-direct-referral-counting {
+		margin-left: 0;
+	}
+}
+
+@media (max-width:991px) {}
+
+@media (max-width:1199px) {}
+
+@media (min-width:480px) and (max-width:767px) {}
+
+@media (min-width:768px) and (max-width:991px) {
+	.referral-button {
+		font-size: 11px;
+	}
+	.points-counting {
+		font-size: 26px;
+		line-height: 50px;
+	}
+	.points-button {
+		font-size:14px;	
+	}
+}
+
+@media (min-width:992px) and (max-width:1199px) {}
