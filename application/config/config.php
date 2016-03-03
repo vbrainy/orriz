@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @param $classname
  */
 
-
+echo "mohit";
 
 function customCIAutoload($classname){
     if(strpos($classname, 'CI_') !== 0){
