@@ -74,10 +74,10 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=166.62.28.84; dbname=orrizmlm; charset=utf8;',
+	'dsn'	=> 'mysql:host=localhost; dbname=orrizmlm; charset=utf8;',
 	'hostname' => 'localhost',
-	'username' => 'orrizmlmuser',
-	'password' => '0(8x5)WifRu0',
+	'username' => 'root',
+	'password' => '',
 	'database' => 'orrizmlm',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
@@ -92,5 +92,5 @@ $db['default'] = array(
 	'compress' => FALSE,
 	'stricton' => FALSE,
 	'failover' => array(),
-	'save_queries' => TRUE
+	'save_queries' => TRUE 
 );
