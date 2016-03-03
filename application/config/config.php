@@ -6,7 +6,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 
-
 function customCIAutoload($classname){
     if(strpos($classname, 'CI_') !== 0){
         $file = APPPATH.'libraries/'.$classname.'.php';
