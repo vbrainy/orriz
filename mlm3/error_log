@@ -1,0 +1,10 @@
+[24-Sep-2015 08:39:15 UTC] PHP Fatal error:  Call to a member function encrypt() on a non-object in /home/iitsolu1/public_html/mlm2/application/models/Member_model.php on line 142
+[24-Sep-2015 08:45:41 UTC] PHP Fatal error:  Call to undefined method CI_Loader::librery() in /home/iitsolu1/public_html/mlm2/application/models/Member_model.php on line 11
+[24-Sep-2015 09:57:20 UTC] PHP Fatal error:  Call to undefined function simple_encrypt() in /home/iitsolu1/public_html/mlm2/application/models/Member_model.php on line 144
+[24-Sep-2015 10:02:26 UTC] PHP Fatal error:  Call to undefined function simple_encrypt() in /home/iitsolu1/public_html/mlm2/application/models/Member_model.php on line 144
+[24-Sep-2015 10:05:39 UTC] PHP Fatal error:  Call to undefined function simple_encrypt() in /home/iitsolu1/public_html/mlm2/application/controllers/Members.php on line 180
+[12-Oct-2015 15:25:01 UTC] PHP Fatal error:  Call to undefined function dump() in /home/winterwonders/public_html/mlm3/application/controllers/Dashboard.php on line 313
+[12-Oct-2015 15:25:02 UTC] PHP Fatal error:  Call to undefined function dump() in /home/winterwonders/public_html/mlm3/application/controllers/Dashboard.php on line 313
+[12-Oct-2015 15:35:48 UTC] PHP Fatal error:  Call to undefined function dump() in /home/winterwonders/public_html/mlm3/application/controllers/Dashboard.php on line 311
+[12-Oct-2015 15:35:52 UTC] PHP Fatal error:  Call to undefined function dump() in /home/winterwonders/public_html/mlm3/application/controllers/Dashboard.php on line 311
+[14-Oct-2015 06:24:07 UTC] PHP Parse error:  syntax error, unexpected '/' in /home/winterwonders/public_html/mlm3/application/controllers/Dashboard.php on line 310
