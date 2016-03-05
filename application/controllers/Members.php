@@ -244,20 +244,24 @@ $this->data['getStep1ProfileDetails'] = $this->member_model->getStep1ProfileDeta
         // validate form input
         $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
         $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
-        $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
-        $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
-
+       // $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
+       // $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
+       // $this->form_validation->set_rules('city', $this->lang->line('edit_user_validation_fname_label'), 'required');
+       // $this->form_validation->set_rules('country', $this->lang->line('edit_user_validation_lname_label'), 'required');
+       
         if (isset($_POST) && !empty($_POST)) {
+            
+            
             // do we have a valid request?
-            if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
-                show_error($this->lang->line('error_csrf'));
-            }
-
-            // update the password if it was posted
-            if ($this->input->post('password')) {
-                $this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
-                $this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
-            }
+//            if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
+//                show_error($this->lang->line('error_csrf'));
+//            }
+//
+//            // update the password if it was posted
+//            if ($this->input->post('password')) {
+//                $this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
+//                $this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
+//            }
 
             if ($this->form_validation->run() === TRUE) {
 
@@ -265,8 +269,17 @@ $this->data['getStep1ProfileDetails'] = $this->member_model->getStep1ProfileDeta
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name' => $this->input->post('last_name'),
-                    'company' => $this->input->post('company'),
-                    'phone' => $this->input->post('phone')
+                    'city' => !empty($this->input->post('city')) ? $this->input->post('city') : "",
+                    'country' => !empty($this->input->post('country')) ? trim($this->input->post('country')) : "" ,
+                    'relationship_status' => !empty($this->input->post('relationship_status')) ? trim($this->input->post('relationship_status')) : "",
+                    'religion' => !empty($this->input->post('religion')) ? trim($this->input->post('religion')) :"" ,
+                    'school'=> !empty($this->input->post('school')) ? trim($this->input->post('school')) : "" ,
+                    'college'=>   !empty($this->input->post('college')) ? trim($this->input->post('college')) :"",
+                    'university'=> !empty($this->input->post('university')) ? trim($this->input->post('university')) : "",
+                    "intrest_in_dating" => !empty($this->input->post('dating')) ? trim(1) : 0 ,
+                    "intrest_in_friends" => !empty($this->input->post('friends')) ? trim(1) : 0 ,
+                    "intrest_in_serious_relationship" => !empty($this->input->post('serious_relationship')) ? trim(1) : 0 ,
+                    "intrest_in_networking" => !empty($this->input->post('networking')) ? trim(1) : 0 ,
                 );
 
                 // update the password if it was posted
@@ -310,7 +323,7 @@ $this->data['getStep1ProfileDetails'] = $this->member_model->getStep1ProfileDeta
         }
 
 
-        //$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 
         $this->view('members/edit_profile', $this->data);
     }
