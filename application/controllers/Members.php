@@ -529,7 +529,14 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
             }
       
   }else{
-                $this->session->set_flashdata('message', validation_errors());
+      
+                $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+                $this->data['password'] = $this->input->post('password');
+                $this->data['new_password']             = $this->input->post('new_password');
+                $this->data['new_confirm']                = $this->input->post('new_confirm');
+            
+                $this->session->set_flashdata('message',$this->data['message']);
                 redirect(base_url('members/change_password'));
             
   }
