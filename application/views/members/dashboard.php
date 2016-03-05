@@ -33,6 +33,9 @@ public/css/wall.css" />
     <![endif]-->
     <script type="text/javascript">
         $(document).ready(function(){
+            
+            $(this).scrollTop(0);
+            
             $total_records= <?php echo $this->data['total_records']; ?>;
             $records_per_page=<?php echo $this->data['records_per_page']; ?>;
             $number_of_pages=<?php echo $this->data['number_of_pages']; ?>;
@@ -112,7 +115,7 @@ public/css/wall.css" />
 
             $current_page=2;
             $(window).scroll(function(){
-                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 500){
+                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 200){
                     //$start=($current_page * $records_per_page)-$records_per_page;
 //                    console.log($('.detailBox').length);
                     if(localStorage.getItem('load_more_ready') == false) return;
@@ -212,7 +215,6 @@ public/css/wall.css" />
            } );
            e.preventDefault();
            }); 
-            
             
         });
     </script>
@@ -457,6 +459,8 @@ public/css/wall.css" />
 </script>
 <script>
     function add_comment(post_id){
+        
+    $('#commentbox_'+post_id).find('.button_post_comment').attr('disabled', true);
       var  comment= $('#comment_'+post_id).val();
 
         $.post('<?php echo base_url('posts/add_comment'); ?>',{post_id:post_id,comment:comment},function(data){
@@ -464,6 +468,7 @@ public/css/wall.css" />
                 $('#comment_'+post_id).val('');
 
                 get_comments(post_id);
+                
             }else
 
                 alert(data);
@@ -481,13 +486,6 @@ public/css/wall.css" />
 
 </script>
 <script type="text/javascript">
-
-    $(document).ready(function(){
-  
-       }
-
-   );
-
     function clear(){
         $("#myForm : input").each(function(){
             $(this).val("");
@@ -514,6 +512,7 @@ public/css/wall.css" />
             $('#post_id_'+post_id+'_likes').text(data);
         });
     }
+    
 </script>
 <!--<script>
     function comment_add(post_id){

@@ -63,11 +63,10 @@
                     </ul>
                     <form class="form-inline" role="form" id="commentbox_<?php echo $rows['id']; ?>" action="<?php echo base_url('posts/add_comment'); ?>" method="post" >
                         <div class="form-group">
-                            <textarea class="form-control" style="height: 30px;" type="text" name="comment_<?php echo $rows['id']; ?>" id="comment_<?php echo $rows['id']; ?>" placeholder="Your comments" ></textarea>
-
+                            <textarea class="form-control text_post_comment" style="height: 50px;"  name="comment_<?php echo $rows['id']; ?>" id="comment_<?php echo $rows['id']; ?>" placeholder="Your comments" ></textarea>
                         </div>
                         <div class="form-group">
-                            <button class="btn btn-default" href="" onclick="add_comment('<?php echo $rows['id']; ?>'); return false;">Add</button>
+                            <button class="btn btn-default button_post_comment" href="javascript:void(0);" disabled="true" onclick="add_comment('<?php echo $rows['id']; ?>'); return false;">Add</button>
                         </div>
                         <span id="comment_<?php echo $rows['id']; ?>"></span>
                     </form>
@@ -77,3 +76,36 @@
         </li>
     </div>
 <?php }} //else echo "There is no post to show"; ?>
+
+<script>
+    $(document).ready(function(){
+//       
+//            console.log($('.status').length);
+//            $('.detailBox .text_post_comment').on('keypress','textarea', function (e) {
+//            console.log($(this).length);
+//            });
+//            
+//            console.log($('.actionBox').find('textarea').length);
+
+            $('.text_post_comment').on('keyup change', function()
+            {
+                if($(this).val().length)
+                {
+                    $(this).parent().next().find('.button_post_comment').attr("disabled", false);
+                }
+                else
+                {
+                    $(this).parent().next().find('.button_post_comment').attr("disabled", true);
+                }
+            });
+
+             $('.text_post_comment').keypress(function(e) {
+                
+                if (e.which == 13) {
+                e.preventDefault();
+                $(this).parent().next().find('.button_post_comment').click();
+                return false;
+             }
+         });
+         });
+</script>
