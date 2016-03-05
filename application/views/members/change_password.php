@@ -66,7 +66,7 @@
 					<div class="join-form-body">
 						<div class="from-body-container">
 							<h4 class="form-tagline">Your Profile Password</h4>
-							<form role="form" method="post" action="<?php echo base_url();?>members/change_password">
+							<form role="form" method="post" action="<?php echo base_url();?>members/change_passwod">
                                                             
                                                             
                                                             
@@ -92,7 +92,7 @@
 										<label class="step-label">Confirm Password:</label>
 									</div>
 									<div class="step-input-field">
-                                                                            <input type="text"  placeholder="Confirm Password" name="confirm_password"  class="join-form-control" required="required" />
+                                                                            <input type="text"  placeholder="Confirm Password" name="new_confirm"  class="join-form-control" required="required" />
 									</div>
 								</div><div class="details-form-group">
 									<div class="step-label-col">

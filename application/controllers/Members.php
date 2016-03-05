@@ -502,7 +502,30 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
     }
     
     function change_passwod(){
-       
+       //change_password($identity, $old, $new)
+                 $this->form_validation->set_rules('password', 'password', 'required');
+         $this->form_validation->set_rules('new_password', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
+            $this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
+  if (isset($_POST) && !empty($_POST)) {
+  
+  if ($this->form_validation->run() === TRUE) {
+     
+             if ($this->ion_auth->change_password('vishad.msn@gmail.com',$this->input->post('password') ,$this->input->post('new_password'))) {
+                //if the login is successful
+                //redirect them back to the Dashboard page
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect(base_url('dashboard'), 'refresh');
+            } else {
+              p($_POST);
+                // if the login was un-successful
+                // redirect them back to the login page
+                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                redirect('/', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+            }
+      
+  }
+  
+  }
          $this->load->view('members/change_password');
     }
 }
