@@ -76,4 +76,4 @@
 
         </li>
     </div>
-<?php }} else echo "There is no post to show"; ?>
+<?php }} //else echo "There is no post to show"; ?>
