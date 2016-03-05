@@ -304,10 +304,12 @@ class Dashboard extends Members_Controller
 //
 //
 //    }
+    
+    
     public function upload(){
         $file_formats = array("jpg", "png", "gif", "bmp");
 
-        $filepath = $_SERVER['DOCUMENT_ROOT']."/public/images/pic/";
+        $filepath = "public/images/pic/";
         $preview_width = "400";
         $preview_height = "300";
 
@@ -344,13 +346,13 @@ class Dashboard extends Members_Controller
     }
     public function uploadimage1()
     {   if (isset($_POST["upload_thumbnail"])) {
-        $upload_path = $_SERVER['DOCUMENT_ROOT']."/public/images/pic/";
+        $upload_path = "public/images/pic/";
         $thumb_width = "150";
         $thumb_height = "150";
         $filename = $_POST['filename'];
 
         $large_image_location = $upload_path.$_POST['filename'];
-        $thumb_image_location = $_SERVER['DOCUMENT_ROOT']."/public/images/thumb/".$_POST['filename'];
+        $thumb_image_location = "public/images/thumb/".$_POST['filename'];
 
         $x1 = $_POST["x1"];
         $y1 = $_POST["y1"];
@@ -360,7 +362,10 @@ class Dashboard extends Members_Controller
         $h = $_POST["h"];
 
         $scale = $thumb_width/$w;
+        
+        
         $cropped = resizeThumbnailImage($thumb_image_location, $large_image_location,$w,$h,$x1,$y1,$scale);
+        
         $data    = [
 
             'image' => $filename
@@ -368,7 +373,8 @@ class Dashboard extends Members_Controller
         ];
         $user_id = $this->session->userdata('user_id');
         $this->member_model->update_members_profile($user_id, $data);
-       redirect(base_url('dashboard'),'refresh');
+      
+        redirect(base_url('dashboard'),'refresh');
         exit();
     }
 

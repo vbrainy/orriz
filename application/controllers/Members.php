@@ -327,6 +327,67 @@ $this->data['getStep1ProfileDetails'] = $this->member_model->getStep1ProfileDeta
 
         $this->view('members/edit_profile', $this->data);
     }
+    
+    function edit_about_yourself(){
+       
+        $id                  = $this->session->userdata('user_id');
+        $user          = $this->ion_auth->user($id)->row();
+        $this->data['title'] = "Edit User";
+$this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDetails($id);
+
+
+      $this->form_validation->set_rules('music', 'Music', 'trim');
+        $this->form_validation->set_rules('movies', 'Movies', 'trim');
+        $this->form_validation->set_rules('tv', 'TV Status', 'trim');
+        $this->form_validation->set_rules('books', 'Books', 'trim');
+        $this->form_validation->set_rules('sports', 'Sports', 'trim');
+        $this->form_validation->set_rules('interests', 'Interests Relationship', 'trim');
+        $this->form_validation->set_rules('best_feature', 'Best Feature', 'trim');
+        $this->form_validation->set_rules('dreams', 'Dreams', 'trim');
+        $this->form_validation->set_rules('about_me', 'About Me', 'trim');
+
+        if (isset($_POST) && !empty($_POST)) {
+    
+            if ($this->form_validation->run() === TRUE) {
+
+
+        $data = [
+                'music' => $this->input->post('music'),
+                'movies' => $this->input->post('movies'),
+                'tv' => $this->input->post('tv'),
+                'books' => $this->input->post('books'),
+                'sports' => $this->input->post('sports'),
+                'interests' => $this->input->post('interests'),
+                'best_feature' => $this->input->post('best_feature'),
+                'dreams' => $this->input->post('dreams'),
+                'about_me' => $this->input->post('about_me')
+            ];
+     
+        
+                // check to see if we are updating the user
+                if ($this->ion_auth->update($user->id, $data)) {
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+             
+                    redirect('members/edit_about_yourself', 'refresh');
+
+                } else {
+
+                    $this->session->set_flashdata('message', $this->ion_auth->errors());
+
+                    redirect('members/edit_about_yourself', 'refresh');
+
+
+                }
+
+            }
+        }
+      $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+
+        $this->view('members/edit_about_yourself', $this->data);
+    
+
+    }
+    
     function forgot_password()
     {
         // setting validation rules by checking wheather identity is username or email
