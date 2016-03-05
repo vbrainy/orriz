@@ -207,7 +207,27 @@ class Member_Model extends CI_Model
    public function deletefriend($friend_id,$user_id){
         $this->db->query("delete from friends where friend_one=$friend_id and friend_two= $user_id or friend_one = $user_id and friend_two=$friend_id and status=2 LIMIT 1 ");
     }
-
+    
+    // Edited By Vishad
+   public function getStep1ProfileDetails($id){
+       
+	  
+		 $this->db->select('*');
+		 $this->db->from('members');
+		 $this->db->where( array('id' => $id));
+		 $query = $this->db->get();
+		
+		if ($query->num_rows() > 0)
+		{
+			return $query->row();
+		}
+		else
+		{
+			return array();
+		}
+ 	
+       
+   }
 
 
 }
