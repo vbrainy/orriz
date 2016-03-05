@@ -79,6 +79,12 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => '',
 	'database' => 'orrizmlm',
+//
+//	'dsn'	=> 'mysql:host=localhost; dbname=orrizmlm; charset=utf8;',
+//	'hostname' => 'localhost',
+//	'username' => 'root',
+//	'password' => '',
+//	'database' => 'orrizmlm',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

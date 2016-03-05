@@ -12,6 +12,7 @@ class Members extends Members_Controller
     }
     public function index()
     {
+        
         $this->load->view('website/index');
     }
     function login()
@@ -76,8 +77,7 @@ class Members extends Members_Controller
         } else
             $parent_id = 1;
 
-
-        $tables                        = $this->config->item('tables', 'ion_auth');
+ $tables                        = $this->config->item('tables', 'ion_auth');
         $identity_column               = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
@@ -229,10 +229,13 @@ class Members extends Members_Controller
             redirect(base_url('members/forgot_password'), 'refresh');
         }
     }
-    function edit_profile()
+        function edit_profile()
     {
+           
         $id                  = $this->session->userdata('user_id');
         $this->data['title'] = "Edit User";
+$this->data['getStep1ProfileDetails'] = $this->member_model->getStep1ProfileDetails($id);
+
 
         $user          = $this->ion_auth->user($id)->row();
         $groups        = $this->ion_auth->groups()->result_array();
@@ -307,9 +310,9 @@ class Members extends Members_Controller
         }
 
 
-        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        //$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 
-        $this->view('website/editprofile', $this->data);
+        $this->view('members/edit_profile', $this->data);
     }
     function forgot_password()
     {
