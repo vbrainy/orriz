@@ -502,6 +502,7 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
     }
     
     function change_passwod(){
+       
          $this->load->view('members/change_password');
     }
 }
