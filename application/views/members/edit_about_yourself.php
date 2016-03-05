@@ -58,7 +58,7 @@
          </div>
 
 			<div class="col-xs-12">
-                            
+                             <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
 				<div class="first-step-form">
 					<div class="form-title">
 						<h5>Edit Profile</h5>

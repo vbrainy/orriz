@@ -18,7 +18,7 @@
                     </div>
                     <div class="pop-over-menu">
                         <ul>
-                            <li><a href="#">Account Setting</a></li>
+                            <li><a href="<?php echo base_url('members/edit_profile'); ?>">Account Setting</a></li>
                             <li><a href="#">Help</a></li>
                             <li><a href="#">Contact Us</a></li>
                             <li><a href="<?php echo base_url('members/logout'); ?>">Logout</a></li>
