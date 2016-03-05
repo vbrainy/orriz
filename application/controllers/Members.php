@@ -402,7 +402,7 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
         $upload_path = "public/images/pic/";
         $thumb_width = "150";
         $thumb_height = "150";
-        $filename = $_POST['filename'];
+        $filename = $_POST['filename']; 
 
         $large_image_location = $upload_path.$_POST['filename'];
         $thumb_image_location = "public/images/thumb/".$_POST['filename'];
