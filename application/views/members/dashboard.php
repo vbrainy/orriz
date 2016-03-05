@@ -39,9 +39,23 @@ public/css/wall.css" />
             $current_page=<?php echo $this->data['current_page']; ?>;
             $start=<?php echo $this->data['start']; ?>;
             $friend_list=<?php echo json_encode($this->data['friends']); ?>;
-            $privacy=<?php echo $this->data['privacy']; ?>;
+            
+            $privacy = localStorage.getItem('privacy_flag');
+            if($privacy == 'undefined')
+            {
+                $privacy=<?php echo $this->data['privacy']; ?>;
+            }
+            
+            var privacyButtonObj = $('#'+$privacy +'.privacy_button');
+            changePrivacyButtonLookFill(privacyButtonObj);
+            //console.log($privacy);
              $('#popup1').hide();
-            load_data($records_per_page,$start,$privacy,$friend_list);
+             
+            if(!$('.detailBox').length)
+            {
+                load_data($records_per_page,$start,$privacy,$friend_list);
+            } 
+            
 
             function load_data($records_per_page,$start,$privacy,$friend_list){
                 $.ajax({
@@ -56,10 +70,20 @@ public/css/wall.css" />
                         $(".load").remove();
                     },
                     success:function(response){
+                        
+                        $("#posts").html('');
+                        //console.log(response.length);
                         $("#posts").append(response);
-
+                        
                         var result = $('<div />').append(response).find('#posts').html();
+                        
                         $('#posts').html(result);
+
+                        
+                        if(!$('.detailBox').length)
+                        {
+                            $('#no_post_container').show();
+                        }
 
                     }
                 });
@@ -77,9 +101,86 @@ public/css/wall.css" />
             });
             
             $('.privacy_button').click(function(){
-                load_data($records_per_page,$start,'1',$friend_list);
+                $('.privacy_button').removeClass('btn-success').addClass('btn-default');
+                $('.privacy_button').attr('disabled', false);
+                changePrivacyButtonLookFill($(this));
+                var privacyFlag = $(this).attr('id');
+                localStorage.setItem('privacy_flag' , privacyFlag);
+                privacyFlag = localStorage.getItem('privacy_flag');
+                load_data($records_per_page,$start,privacyFlag,$friend_list);
             });
-        })
+            
+            function changePrivacyButtonLookFill(obj)
+            {
+                obj.removeClass('btn-default').addClass('btn-success');
+                obj.attr('disabled', true);
+            }
+            
+            
+            $('#status').on('keyup change', function()
+            {
+                if($(this).val().length)
+                {
+                    changeSubmitPostAtt(false);
+                }
+                else
+                {
+                    changeSubmitPostAtt(true);
+                }
+            });
+            $('#image').on('change', function()
+            {
+                if($(this).val().length)
+                {
+                    //$('#submit').attr('disabled', false);
+                    changeSubmitPostAtt(false);
+                }
+            });
+            
+            function changeSubmitPostAtt(attValue)
+            {
+                $('#submit').attr('disabled', attValue);
+            }
+            
+            
+             $( '#myForm' )
+       .submit( function( e ) {
+           $.ajax( {
+               url: '<?php echo base_url('posts/status_insert'); ?>',
+               type: 'POST',
+               data: new FormData( this ),
+               processData: false,
+               contentType: false,
+               beforeSend:function(){
+                   $("#wallz1").append("<span class='load'>Please wait.....</span>");
+               },
+               complete:function(){
+                   $(".load").remove();
+                   //$('#wallz').find('#posts').html('');
+               },
+               success:function(response){
+                  //If post found then remove that "no post" element
+                  
+                  $('#status').val('');
+                  $('#image').val('');
+                  //$("#posts1").prepend(response);
+                  $("#posts").prepend(response);
+                    if(!$('.detailBox').length)
+                    {
+                        $('#no_post_container').show();
+                    }
+                    else
+                    {
+                        $('#no_post_container').hide();
+                    }
+                    changeSubmitPostAtt(true);
+                }
+           } );
+           e.preventDefault();
+           }); 
+            
+            
+        });
     </script>
 </head>
 <body>
@@ -157,7 +258,7 @@ public/css/wall.css" />
                             
                             <div id="menu1" class="tab-pane fade" style="height: 71px;">
                                 <h5>Select Photo From Your Computer</h5>
-                                <input type="file" id="image" name="image"/>
+                                <input type="file" id="image" name="image"/> 
                             </div>
                             
                         </div>
@@ -166,12 +267,12 @@ public/css/wall.css" />
                             <div class="col-md-7">
                                 <form role="form" method="post" action="<?php echo base_url('posts/privacy'); ?>
                                                             " > <label class="btn-default">Show:</label>
-                                    <button type="button" value="1" id="1" <?php if($privacy=="1"){echo "disabled";}?> class="btn-sm privacy_button btn-<?php if($privacy=="1"){echo "success";} else echo "default";?>
-                                                             " name="privacy" >Everyone</button>
-                                    <button type="button" value="2" id="2" <?php if($privacy=="2"){echo "disabled";}?> class="btn-sm privacy_button btn-<?php if($privacy=="2"){echo "success";} else echo "default";?>
-                                                            " name="privacy" >Friends</button>
-                                    <button type="button" value="3" id="3" <?php if($privacy=="3"){echo "disabled";}?> class="btn-sm privacy_button btn-<?php if($privacy=="3"){echo "success";} else echo "default";?>
-                                                            " name="privacy" >Me</button>
+                                    <button type="button" value="1" id="1" class="btn-sm privacy_button btn-default"
+                                                              name="privacy" >Everyone</button>
+                                    <button type="button" value="2" id="2" class="btn-sm privacy_button btn-default"
+                                                             name="privacy" >Friends</button>
+                                    <button type="button" value="3" id="3" class="btn-sm privacy_button btn-default"
+                                                             name="privacy" >Me</button>
                                 </form>
                             </div>
                             <div class="col-md-5">
@@ -181,7 +282,7 @@ public/css/wall.css" />
                                         <option value="2">Only my friends</option>
                                         <option value="3">Only me</option>
                                     </select>
-                                    <input type="submit" name="submit" id="submit" value="Post" class="btn btn-primary pull-right">
+                                    <input type="submit" name="submit" id="submit" value="Post" class="btn btn-primary pull-right" disabled="true">
                                 </div>
                                 
                             </div>
@@ -191,6 +292,10 @@ public/css/wall.css" />
                 </div>
                 
                 <br>
+                
+                <div id="no_post_container" style="display: none;">
+                    There is not posts available.
+                </div>
                 <div id="wallz1" class="fb_wall">
                     <ul id="posts1">
 
@@ -341,31 +446,10 @@ public/css/wall.css" />
 
 
 </script>
-<script>
+<script type="text/javascript">
 
-   $( '#myForm' )
-       .submit( function( e ) {
-           $.ajax( {
-               url: '<?php echo base_url('posts/status_insert'); ?>',
-               type: 'POST',
-               data: new FormData( this ),
-               processData: false,
-               contentType: false,
-               beforeSend:function(){
-                   $("#wallz1").append("<span class='load'>Please wait.....</span>");
-               },
-               complete:function(){
-                   $(".load").remove();
-                   //$('#wallz').find('#posts').html('');
-               },
-               success:function(response){
-                  $('#status').val('');
-                  $('#image').val('');
-                  $("#posts1").prepend(response);
-                  }
-           } );
-           e.preventDefault();
-
+    $(document).ready(function(){
+  
        }
 
    );
@@ -374,10 +458,13 @@ public/css/wall.css" />
         $("#myForm : input").each(function(){
             $(this).val("");
         });
+        
     }
+    
 
 </script>
 <script>
+    
     function like_add(post_id){
         $.post('<?php echo base_url('posts/like_post'); ?>',{post_id:post_id},function(data){
             if(data=='success'){
