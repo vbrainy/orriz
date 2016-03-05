@@ -501,7 +501,10 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
             return $view_html; //This will return html on 3rd argument being true
     }
     
-    function change_passwod(){
+    function change_password(){
+         $id                  = $this->session->userdata('user_id');
+         $user          = $this->ion_auth->user($id)->row();
+   
        //change_password($identity, $old, $new)
                  $this->form_validation->set_rules('password', 'password', 'required');
          $this->form_validation->set_rules('new_password', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
@@ -510,22 +513,30 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
   
   if ($this->form_validation->run() === TRUE) {
      
-             if ($this->ion_auth->change_password('vishad.msn@gmail.com',$this->input->post('password') ,$this->input->post('new_password'))) {
+             if ($this->ion_auth->change_password($user->email,$this->input->post('password') ,$this->input->post('new_password'))) {
                 //if the login is successful
                 //redirect them back to the Dashboard page
+              // p($this->ion_auth->messages());
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect(base_url('dashboard'), 'refresh');
+                redirect(base_url('members/change_password'), 'refresh');
             } else {
-              p($_POST);
+              
                 // if the login was un-successful
                 // redirect them back to the login page
+                
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
-                redirect('/', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+                redirect(base_url('members/change_password'), 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
             }
       
+  }else{
+                $this->session->set_flashdata('message', validation_errors());
+                redirect(base_url('members/change_password'));
+            
   }
   
   }
-         $this->load->view('members/change_password');
+   $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+ 
+   $this->load->view('members/change_password',$this->data['message']);
     }
 }

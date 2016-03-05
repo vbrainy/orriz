@@ -56,9 +56,9 @@
                  <li><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
              </ul>
          </div>
-
-			<div class="col-xs-12">
-                            
+  
+ 			<div class="col-xs-12">
+                             <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
 				<div class="first-step-form">
 					<div class="form-title">
 						<h5>Edit Profile</h5>
@@ -66,7 +66,7 @@
 					<div class="join-form-body">
 						<div class="from-body-container">
 							<h4 class="form-tagline">Your Profile Password</h4>
-							<form role="form" method="post" action="<?php echo base_url();?>members/change_passwod">
+							<form role="form" method="post" action="<?php echo base_url();?>members/change_password">
                                                             
                                                             
                                                             
