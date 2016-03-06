@@ -56,8 +56,21 @@ public/css/wall.css" />
                 load_data($records_per_page,$start,$privacy,$friend_list);
             } 
             
-
-            function load_data($records_per_page,$start,$privacy,$friend_list){
+           $load_more=0; 
+           localStorage.setItem('load_more_complete', 0);
+           localStorage.setItem('load_more_ready', true);
+           function load_data($records_per_page,$start,$privacy,$friend_list, $load_more){
+                localStorage.setItem('load_more_ready', false);
+//               console.log($('.detailBox').length);
+//               if(!$('.detailBox').length)
+//               {
+//                   $start = 0;
+//               }
+//               else
+//               {
+//                    $start = $('.detailBox').length;
+//                }
+               //console.log($start);
                 $.ajax({
                     url: "<?php echo base_url('posts/ajex_load_posts'); ?>",
                     type: "post",
@@ -71,7 +84,14 @@ public/css/wall.css" />
                     },
                     success:function(response){
                         
-                        $("#posts").html('');
+                        if(!response) 
+                        {
+                            localStorage.setItem('load_more_complete', 1);
+                        }
+                        if($load_more != 'scroll')
+                        {
+                            $("#posts").html('');
+                        }
                         //console.log(response.length);
                         $("#posts").append(response);
                         
@@ -84,6 +104,7 @@ public/css/wall.css" />
                         {
                             $('#no_post_container').show();
                         }
+                        localStorage.setItem('load_more_ready', true);
 
                     }
                 });
@@ -91,10 +112,22 @@ public/css/wall.css" />
 
             $current_page=2;
             $(window).scroll(function(){
-                if($(window).scrollTop()+window.innerHeight==$(document).height()){
-                    $start=($current_page * $records_per_page)-$records_per_page;
-                    if($current_page<=$number_of_pages){
-                        load_data($records_per_page,$start,$privacy,$friend_list);
+                if ($(window).scrollTop() >= $(document).height() - $(window).height() - 500){
+                    //$start=($current_page * $records_per_page)-$records_per_page;
+//                    console.log($('.detailBox').length);
+                    if(localStorage.getItem('load_more_ready') == false) return;
+                    if(!$('.detailBox').length)
+                    {
+                        $start = 0;
+                    }
+                    else
+                    {
+                        $start = $('.detailBox').length;
+                    }
+                    //if($current_page<=$number_of_pages)
+                    if(localStorage.getItem('load_more_complete') == "0" && localStorage.getItem('load_more_ready') == "true")
+                    {
+                        load_data($records_per_page,$start,localStorage.getItem('privacy_flag'),$friend_list, 'scroll');
                         $current_page++;
                     }
                 }
@@ -103,11 +136,12 @@ public/css/wall.css" />
             $('.privacy_button').click(function(){
                 $('.privacy_button').removeClass('btn-success').addClass('btn-default');
                 $('.privacy_button').attr('disabled', false);
+                localStorage.setItem('load_more_complete', 0);
                 changePrivacyButtonLookFill($(this));
                 var privacyFlag = $(this).attr('id');
                 localStorage.setItem('privacy_flag' , privacyFlag);
                 privacyFlag = localStorage.getItem('privacy_flag');
-                load_data($records_per_page,$start,privacyFlag,$friend_list);
+                load_data($records_per_page,0,privacyFlag,$friend_list);
             });
             
             function changePrivacyButtonLookFill(obj)
