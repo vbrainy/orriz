@@ -99,6 +99,7 @@ $thumb_height = "150";
 </div>
 
 <div class="clearfix"></div>
+ <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
     <div class="container1">
 
         <div class="crop_box">

@@ -50,10 +50,10 @@
             </div>
                             <div class="panel-body">
              <ul class="nav nav-tabs" role="tablist">
-                 <li class="active"><a href="<?php echo base_url('members/edit_profile'); ?>">Edit profile info</a></li>
+                 <li ><a href="<?php echo base_url('members/edit_profile'); ?>">Edit profile info</a></li>
                  <li ><a href="<?php echo base_url('members/edit_about_yourself'); ?>">About yourself</a></li>
                  <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">upload Image</a></li>
-                 <li><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
+                 <li class="active"><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
              </ul>
          </div>
   
@@ -65,7 +65,7 @@
 					</div>
 					<div class="join-form-body">
 						<div class="from-body-container">
-							<h4 class="form-tagline">Your Profile Password</h4>
+							<h4 class="form-tagline">Edit Your Profile Password</h4>
 							<form role="form" method="post" action="<?php echo base_url();?>members/change_password">
                                                             
                                                             
@@ -76,7 +76,7 @@
 										<label class="step-label">Current Password:</label>
 									</div>
 									<div class="step-input-field">
-                                                                            <input type="text"  placeholder="Your Current Password" name="password"  class="join-form-control" required="required" />
+                                                                            <input type="password"   placeholder="Your Current Password" value="<?php echo set_value('password'); ?>" name="password"  class="join-form-control" required="required" />
 									</div>
 								</div>
 							<div class="details-form-group">
@@ -84,7 +84,7 @@
 										<label class="step-label">New Password:</label>
 									</div>
 									<div class="step-input-field">
-                                                                            <input type="text"  placeholder="New Password" name="new_password"  class="join-form-control" required="required" />
+                                                                            <input type="password"  placeholder="New Password" name="new_password" value="<?php echo set_value('new_password'); ?>"  class="join-form-control" required="required" />
 									</div>
 								</div>
 								<div class="details-form-group">
@@ -92,7 +92,7 @@
 										<label class="step-label">Confirm Password:</label>
 									</div>
 									<div class="step-input-field">
-                                                                            <input type="text"  placeholder="Confirm Password" name="new_confirm"  class="join-form-control" required="required" />
+                                                                            <input type="password"  placeholder="Confirm Password" name="new_confirm" value="<?php echo set_value('new_confirm'); ?>"  class="join-form-control" required="required" />
 									</div>
 								</div><div class="details-form-group">
 									<div class="step-label-col">
