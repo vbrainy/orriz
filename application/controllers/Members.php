@@ -388,6 +388,52 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
 
     }
     
+    // Upload Image
+    
+     public function upload_profile_image()
+    {
+        $this->load->view('members/edit_uploadimage');
+       // p(51);
+    }
+    
+    
+        public function upload_image()
+    {   if (isset($_POST["upload_thumbnail"])) {
+        $upload_path = "public/images/pic/";
+        $thumb_width = "150";
+        $thumb_height = "150";
+        $filename = $_POST['filename']; 
+
+        $large_image_location = $upload_path.$_POST['filename'];
+        $thumb_image_location = "public/images/thumb/".$_POST['filename'];
+
+        $x1 = $_POST["x1"];
+        $y1 = $_POST["y1"];
+        $x2 = $_POST["x2"];
+        $y2 = $_POST["y2"];
+        $w = $_POST["w"];
+        $h = $_POST["h"];
+
+        $scale = $thumb_width/$w;
+        
+        
+        $cropped = resizeThumbnailImage($thumb_image_location, $large_image_location,$w,$h,$x1,$y1,$scale);
+        
+        $data    = [
+
+            'image' => $filename
+
+        ];
+        $user_id = $this->session->userdata('user_id');
+        $this->member_model->update_members_profile($user_id, $data);
+      
+        redirect(base_url('members/upload_profile_image'),'refresh');
+        exit();
+    }
+
+
+    }
+    
     function forgot_password()
     {
         // setting validation rules by checking wheather identity is username or email
@@ -453,5 +499,44 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
 
         if ($returnhtml)
             return $view_html; //This will return html on 3rd argument being true
+    }
+    
+    function change_password(){
+         $id                  = $this->session->userdata('user_id');
+         $user          = $this->ion_auth->user($id)->row();
+   
+       //change_password($identity, $old, $new)
+                 $this->form_validation->set_rules('password', 'password', 'required');
+         $this->form_validation->set_rules('new_password', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
+            $this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
+  if (isset($_POST) && !empty($_POST)) {
+  
+  if ($this->form_validation->run() === TRUE) {
+     
+             if ($this->ion_auth->change_password($user->email,$this->input->post('password') ,$this->input->post('new_password'))) {
+                //if the login is successful
+                //redirect them back to the Dashboard page
+              // p($this->ion_auth->messages());
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect(base_url('members/change_password'), 'refresh');
+            } else {
+              
+                // if the login was un-successful
+                // redirect them back to the login page
+                
+                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                redirect(base_url('members/change_password'), 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+            }
+      
+  }else{
+                $this->session->set_flashdata('message', validation_errors());
+                redirect(base_url('members/change_password'));
+            
+  }
+  
+  }
+   $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+ 
+   $this->load->view('members/change_password',$this->data['message']);
     }
 }
