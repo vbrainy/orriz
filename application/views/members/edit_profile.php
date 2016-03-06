@@ -43,17 +43,17 @@
              <div class="cover-picture-profile">
                 <div class="cover-picture" id="cover_picture">
                     <div class="profile-picture">
-                        <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(!empty($image)){ echo $image; }else echo "no.png"; ?>
+                        <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(!empty($getStep1ProfileDetails->image)){ echo $getStep1ProfileDetails->image; }else echo "no.png"; ?>
 						" alt="Profile Picture" />
                     </div>
                 </div>
             </div>
                             <div class="panel-body">
              <ul class="nav nav-tabs" role="tablist">
-                 <li class="active"><a href="<?php echo base_url('dashboard/friends'); ?>">Friends</a></li>
-                 <li ><a href="<?php echo base_url('dashboard/friendrequests'); ?>">Friend Requests</a></li>
-                 <li><a href="#">Online Friends</a></li>
-                 <li><a href="#">Invite Friends</a></li>
+                 <li class="active"><a href="<?php echo base_url('members/edit_profile'); ?>">Edit profile info</a></li>
+                 <li ><a href="<?php echo base_url('members/edit_about_yourself'); ?>">About yourself</a></li>
+                 <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">upload Image</a></li>
+                 <li><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
              </ul>
          </div>
 
@@ -66,7 +66,7 @@
 					<div class="join-form-body">
 						<div class="from-body-container">
 							<h4 class="form-tagline">Your Profile info</h4>
-							<form role="form" method="post" action="<?php echo base_url();?>dashboard/memberdetail">
+							<form role="form" method="post" action="<?php echo base_url();?>members/edit_profile">
                                                             	<div class="details-form-group">
 									<div class="step-label-col">
 										<label class="step-label">Name:</label>
@@ -95,6 +95,14 @@
 										</div>
 									</div>
 								</div>
+                                                            	<div class="details-form-group">
+									<div class="step-label-col">
+										<label class="step-label">Email:</label>
+									</div>
+									<div class="step-input-field">
+                                                                            <input type="text" readonly="readonly" disabled="disabled" placeholder="Your Religion" name="religion" value="<?php echo !empty($getStep1ProfileDetails->email)? $getStep1ProfileDetails->email : "" ?>" class="join-form-control" />
+									</div>
+								</div>
 								<div class="details-form-group">
 									<div class="step-label-col">
 										<label class="step-label">Relationship Status</label>
@@ -103,7 +111,7 @@
 										<div class="relationship-field">
 											<select name="relationship_status" class="join-form-control">
                                                                                             <option value=""><--- Relationship Status ---></option>
-                                                                                            <option value="Single">Single</option>
+                                                                                            <option value="Single" <?php if($getStep1ProfileDetails->relationship_status == "Single"){ ?>selected="selected" <?php } ?> >Single</option>
                                                                                             <option value="Dating" <?php if($getStep1ProfileDetails->relationship_status == "Dating"){ ?>selected="selected" <?php } ?>>Dating</option>
 												<option value="In a relationship" <?php if($getStep1ProfileDetails->relationship_status == "In a relationship"){ ?>selected="selected" <?php } ?>>In a relationship</option>
 												<option value="Engaged" <?php if($getStep1ProfileDetails->relationship_status == "Engaged"){ ?>selected="selected" <?php } ?>>Engaged</option>
@@ -124,21 +132,21 @@
 									<div class="step-input-field">
 										<div class="interest-checkbox-section">
 											<div class="checkbox-col">
-												<input type="checkbox" id="dating" class="interest-checkbox" value="Dating" name="dating"/>
+                                                                                            <input type="checkbox" id="dating" class="interest-checkbox" <?php if($getStep1ProfileDetails->intrest_in_dating == 1) {?>checked="checked" <?php }?> name="dating"/>
 												<label for="dating" class="interest-label">Dating</label>
 											</div>
 											<div class="checkbox-col">
-												<input type="checkbox" id="friends" name="friends" value="Friends" class="interest-checkbox"/>
+												<input type="checkbox" id="friends" name="friends" <?php if($getStep1ProfileDetails->intrest_in_friends == 1) {?>checked="checked" <?php }?> class="interest-checkbox"/>
 												<label for="friends" class="interest-label">Friends</label>
 											</div>
 										</div>
 										<div class="interest-checkbox-section">
 											<div class="checkbox-col">
-												<input type="checkbox" id="serious-relationship" class="interest-checkbox" name="serious_relationship" value="Serious Relationship"/>
+												<input type="checkbox" id="serious-relationship" class="interest-checkbox" name="serious_relationship" <?php if($getStep1ProfileDetails->intrest_in_serious_relationship == 1) {?>checked="checked" <?php }?>/>
 												<label for="serious-relationship" class="interest-label">Serious Relationship</label>
 											</div>
 											<div class="checkbox-col">
-												<input type="checkbox" id="networking" class="interest-checkbox" name="networking" value="Networking"/>
+												<input type="checkbox" id="networking" class="interest-checkbox" name="networking" <?php if($getStep1ProfileDetails->intrest_in_networking == 1) {?>checked="checked" <?php }?>/>
 												<label for="networking" class="interest-label">Networking</label>
 											</div>
 										</div>
@@ -149,7 +157,7 @@
 										<label class="step-label">Religion:</label>
 									</div>
 									<div class="step-input-field">
-										<input type="text" placeholder="Your Religion" name="religion" class="join-form-control" />
+										<input type="text" placeholder="Your Religion" name="religion" value="<?php echo !empty($getStep1ProfileDetails->religion)? $getStep1ProfileDetails->religion : "" ?>" class="join-form-control" />
 									</div>
 								</div>
 								<div class="details-form-group">
@@ -157,7 +165,7 @@
 										<label class="step-label">School:</label>
 									</div>
 									<div class="step-input-field">
-										<input type="text" placeholder="Your School Name" name="school" class="join-form-control" />
+										<input type="text" placeholder="Your School Name" value="<?php echo !empty($getStep1ProfileDetails->school)? $getStep1ProfileDetails->school : "" ?>" name="school" class="join-form-control" />
 									</div>
 								</div>
 								<div class="details-form-group">
@@ -165,7 +173,7 @@
 										<label class="step-label">College:</label>
 									</div>
 									<div class="step-input-field">
-										<input type="text" placeholder="Your College Name" name="college" class="join-form-control" />
+										<input type="text" placeholder="Your College Name" value="<?php echo !empty($getStep1ProfileDetails->college)? $getStep1ProfileDetails->college : "" ?>" name="college" class="join-form-control" />
 									</div>
 								</div>
 								<div class="details-form-group">
@@ -173,17 +181,17 @@
 										<label class="step-label">University:</label>
 									</div>
 									<div class="step-input-field">
-										<input type="text" placeholder="Your University Name" name="university" class="join-form-control" />
+										<input type="text" placeholder="Your University Name" value="<?php echo !empty($getStep1ProfileDetails->university)? $getStep1ProfileDetails->university : "" ?>" name="university" class="join-form-control" />
 									</div>
 								</div>
 								<div class="details-form-group">
 									<div class="step-label-col">
 									</div>
 									<div class="step-input-field">
-										<input type="submit" value="Save & Continue" class="add-detail-submit-button" />
+										<input type="submit" value="Save" class="add-detail-submit-button" />
 										<div class="skip-button">
 											<span>or</span>
-										<a class="add-detail-skip" href="<?php echo base_url('dashboard/aboutyourself'); ?>"> Skip </a>
+										<a class="add-detail-skip" href="<?php echo base_url('dashboard/index'); ?>"> Cancel </a>
 										</div>
 									</div>
 								</div>
