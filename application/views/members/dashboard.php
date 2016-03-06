@@ -287,14 +287,14 @@ public/css/wall.css" />
             <div class="posts-ads-container">
                 <div class="wall-posts">
                     <form role="form" id="myForm" action="" enctype="multipart/form-data" method="post">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs" style="width: 96%">
                             <li class="active"><a data-toggle="tab" href="#home">Status Update</a></li>
                             <li><a data-toggle="tab" href="#menu1">Add Photo</a></li>
                         </ul>
                         <div class="tab-content">
                             
                             <div id="home" class="tab-pane fade in active">
-                                <textarea name="status" cols="82" id="status" rows="3" placeholder="Whats is in Your Mind?"></textarea>
+                                <textarea name="status" cols="87" id="status" rows="3" placeholder="Whats is in Your Mind?"></textarea>
                             </div>
                             
                             <div id="menu1" class="tab-pane fade" style="height: 71px;">
