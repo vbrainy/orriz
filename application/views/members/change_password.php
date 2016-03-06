@@ -42,7 +42,7 @@
       <div class="row">
              <div class="cover-picture-profile">
                 <div class="cover-picture" id="cover_picture">
-                    <div class="profile-picture">
+                   <div class="profile-picture">
                         <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(!empty($getStep1ProfileDetails->image)){ echo $getStep1ProfileDetails->image; }else echo "no.png"; ?>
 						" alt="Profile Picture" />
                     </div>
@@ -52,7 +52,7 @@
              <ul class="nav nav-tabs" role="tablist">
                  <li ><a href="<?php echo base_url('members/edit_profile'); ?>">Edit profile info</a></li>
                  <li ><a href="<?php echo base_url('members/edit_about_yourself'); ?>">About yourself</a></li>
-                 <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">upload Image</a></li>
+                 <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">Upload Image</a></li>
                  <li class="active"><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
              </ul>
          </div>

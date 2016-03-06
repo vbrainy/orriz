@@ -31,6 +31,19 @@ $thumb_height = "150";
     padding: 0;
     width: 150px;
 }
+
+.crop_preview_submit {
+    margin: 14px -40px -19px;
+    text-align: center;
+    width: 160px;
+}
+.second-step-skip-button {
+    color: #d5dcde;
+    float: left;
+    line-height: 0;
+    margin-left: 60px;
+}
+
     </style>
     <!--Jquery-1.11.1.min.js-->
     <script src="<?php  echo base_url(); ?>public/js/jquery-1.11.3.min.js"></script>
@@ -118,6 +131,11 @@ $thumb_height = "150";
                     </div>
                 </div>
                 <div class="crop_preview_right">
+                       Current Image
+                    <div class="profile-picture">
+ <img src="<?php echo base_url(); ?>public/images/thumb/<?php  if(!empty($image_details)){ echo $image_details; }else { echo "no.png";} ?>
+      " alt="Profile Picture" />
+                    </div>
                     Preview (150x150 px)
                     <div class="crop_preview_box_small" id='thumbviewimage' style="position:relative; overflow:hidden;"> </div>
                     
