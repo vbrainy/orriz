@@ -72,7 +72,7 @@
 <!--                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>-->
 <!---->
 <!--                            </div>-->
-<!--                        </li>-->Whats is in Your Mind?
+<!--                        </li>Whats is in Your Mind?-->
                     </ul>
                     <form class="form-inline" role="form" id="commentbox_<?php echo $rows['id']; ?>" action="<?php echo base_url('posts/add_comment'); ?>" method="post" >
                         <div class="row">
