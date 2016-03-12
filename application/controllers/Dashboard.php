@@ -588,7 +588,30 @@ class Dashboard extends Members_Controller
         $this->load->view($page, $data);
 
     }
+    public function invitefriends()
+    {
+      if ($this->input->is_ajax_request()) {
+     
+        if (!empty($_POST)) {
+            
+            $this->load->library('email');
+            $this->email->from($this->session->userdata('email'), $this->session->userdata('first_name'));
+            $this->email->to($this->input->post('email'));
 
+            $this->email->subject('Invitation From Orriz');
+            $reference_link = "";
+            $this->email->message("testing email for invitation");
 
+            $this->email->send();
+            $this->data['message'] = "Invitation sent Successfuly";
+           
+           echo  1;
+           exit();
+        } 
+       
 
+    }
+
+ $this->load->view('members/invite_friends',$this->data);
+}
 }
