@@ -23,7 +23,7 @@ class Dashboard extends Members_Controller
         $this->data['privacy']         = $user_detail['0']['privacy'];
         $id                           = $this->session->userdata('user_id');
 
-
+ 
         $result              = $this->member_model->ten_level_table($id);
         $this->data['table'] = $result;
         $table               = [];
