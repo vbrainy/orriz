@@ -226,12 +226,14 @@ Invite to join orriz:</label>
 <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type="text/javascript">
+    // 1074175154926-pe504grbo95bk48i0ggkv33nfdska8on.apps.googleusercontent.com 
+    //8qhiR2-gKZ4wWCq603u2P0F0 
+    
     // client secrete  MDfRyKoVwqka8gGicG-LmKgI 
     //  5_ZhEFMbYbn4ZgcGgZSEgYHu 
     var clientId = '1074175154926-pe504grbo95bk48i0ggkv33nfdska8on.apps.googleusercontent.com';
    
-    var apiKey = 'AIzaSyC1n7qcy-2kRbF_KHb7GYIb1_lgCDW-ca4';
-    
+    var apiKey = 'AIzaSyB6Pd4YgVw7Kmy_tWTuYWYHDPRGTPLeFlE';
     var scopes = 'https://www.googleapis.com/auth/contacts.readonly';
     $(document).on("click", ".googleContactsButton", function (e) {
         if($('.fa-google .socialCheck').length == 0) {
@@ -246,23 +248,33 @@ Invite to join orriz:</label>
 
     function handleAuthorization(authorizationResult) {
         if (authorizationResult && !authorizationResult.error) {
-            AjaxStartCall();
-            $.get("https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=" + authorizationResult.access_token + "&max-results=500&alt=json",
+           
+            $.get("https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=" + authorizationResult.access_token + "&max-results=1000&alt=json",
                     function (response) {
                         //process the response here
                         var arrContact = response.feed.entry;
+                       
                         $.each(arrContact, function (key, value) {
-                            var email = value.gd$email[0].address;
+                            
+                   if(typeof(value.gd$email) != "undefined" && value.gd$email !== null){
+                       
+                          var email = value.gd$email[0].address;
                             var name = value.title.$t;
                             if (name == '') {
                                 name = email;
                             }
-                            var html = '<div class="friend_find"> <div class="friendPic"> <span><img src="/images/user-blank.png" alt=""></span> </div><label> ' + name + ' </label><div class="checkFriend"><div onclick="invitegmail(\'' + email + '\',this)"  class="radio_frnd"></div></div></div>';
+                            alert(email);
+                       
+                   }
+                        
+                              var html = '<div class="friend_find"> <div class="friendPic"> <span><img src="/images/user-blank.png" alt=""></span> </div><label> ' + name + ' </label><div class="checkFriend"><div onclick="invitegmail(\'' + email + '\',this)"  class="radio_frnd"></div></div></div>';
                             $('#invite_user').append(html);
                             $('#twit_invite').hide();
-                            $('#fb_invite').hide();
+                            $('#fb_invite').hide(); 
+                     
+                         
                         });
-                        AjaxEndCall();
+                       
                     });
         }
     }
