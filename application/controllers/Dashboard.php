@@ -210,18 +210,22 @@ class Dashboard extends Members_Controller
         $this->form_validation->set_rules('university', 'University', 'trim');
 
         if ($this->form_validation->run() == True) {
-            $intereset = [
-                $this->input->post('dating'),
-                $this->input->post('friends'),
-                $this->input->post('serious_relationship'),
-                $this->input->post('networking')
-            ];
-            $intereset = implode(",", $intereset);
+//            $intereset = [
+//                $this->input->post('dating'),
+//                $this->input->post('friends'),
+//                $this->input->post('serious_relationship'),
+//                $this->input->post('networking')
+//            ];
+           // $intereset = implode(",", $intereset);
             $data      = [
                 'city' => $this->input->post('city'),
                 'country' => $this->input->post('country'),
                 'relationship_status' => $this->input->post('relationship_status'),
-                'interested_in' => $intereset,
+              //  'interested_in' => $intereset,
+                 "intrest_in_dating" => !empty($this->input->post('dating')) ? trim(1) : 0 ,
+                 "intrest_in_friends" => !empty($this->input->post('friends')) ? trim(1) : 0 ,
+                 "intrest_in_serious_relationship" => !empty($this->input->post('serious_relationship')) ? trim(1) : 0 ,
+                "intrest_in_networking" => !empty($this->input->post('networking')) ? trim(1) : 0 ,
                 'religion' => $this->input->post('religion'),
                 'school' => $this->input->post('school'),
                 'college' => $this->input->post('college'),
@@ -584,7 +588,30 @@ class Dashboard extends Members_Controller
         $this->load->view($page, $data);
 
     }
+    public function invitefriends()
+    {
+      if ($this->input->is_ajax_request()) {
+     
+        if (!empty($_POST)) {
+            
+            $this->load->library('email');
+            $this->email->from($this->session->userdata('email'), $this->session->userdata('first_name'));
+            $this->email->to($this->input->post('email'));
 
+            $this->email->subject('Invitation From Orriz');
+            $reference_link = "";
+            $this->email->message("testing email for invitation");
 
+            $this->email->send();
+            $this->data['message'] = "Invitation sent Successfuly";
+           
+           echo  1;
+           exit();
+        } 
+       
 
+    }
+
+ $this->load->view('members/invite_friends',$this->data);
+}
 }

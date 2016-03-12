@@ -2,13 +2,26 @@
     ?>
     <div class="detailBox">
         <li>
-            <div class="userImage"><img style="width: 50px; height: 50px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>
-						" class="avatar"> </div>
+            <div class="row">
+                <div class="col-md-6">
+                        <div class="userImage">
+                            <a style="font-size: 15px;" href="#" target="_blank"><?php echo $rows['first_name'].'  '.$rows['last_name'];?></a>
+                            <img style="width: 70px; height: 60px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>" class="avatar">
+                        </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="pull-right">
+                        <b> <?php echo $rows['time']; ?></b>
+                    </div> 
+                </div>
+            </div>
+            
+<!--            <div class="userImage"><img style="width: 50px; height: 50px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>
+						" class="avatar"><div class="pull-right">
+                    Posted on: <?php echo $rows['time']; ?>
+                </div> </div>-->
             <div class="status">
-                <h2><a href="#" target="_blank"><?php echo $rows['first_name'].'  '.$rows['last_name'];?>
-                    </a></h2>
-
-
+                
                 <div class="commentBox">
 
                     <p class="taskDescription"><?php echo $rows['status'];?></p>
@@ -23,8 +36,7 @@
 
 
 
-                <h5>   Posted on: <?php echo $rows['time']; ?>
-                    <br/><a href="" onclick="like_add('<?php echo $rows['id']; ?>'); return false;"><span id="heart_<?php echo $rows['id']; ?>" class="glyphicon glyphicon-heart"></span></a> <span id="<?php echo "post_id_".$rows['id']."_likes"; ?>"><?php echo $rows['likes']; ?>
+                <h5><a href="" onclick="like_add('<?php echo $rows['id']; ?>'); return false;"><span id="heart_<?php echo $rows['id']; ?>" class="glyphicon glyphicon-heart"></span></a> <span id="<?php echo "post_id_".$rows['id']."_likes"; ?>"><?php echo $rows['likes']; ?>
 								</span> People <span class="glyphicon glyphicon-heart"></span> </h5>
 
 
@@ -62,12 +74,13 @@
 <!--                        </li>-->
                     </ul>
                     <form class="form-inline" role="form" id="commentbox_<?php echo $rows['id']; ?>" action="<?php echo base_url('posts/add_comment'); ?>" method="post" >
-                        <div class="form-group">
-                            <textarea class="form-control" style="height: 30px;" type="text" name="comment_<?php echo $rows['id']; ?>" id="comment_<?php echo $rows['id']; ?>" placeholder="Your comments" ></textarea>
-
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-default" href="" onclick="add_comment('<?php echo $rows['id']; ?>'); return false;">Add</button>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <textarea cols="65" class="form-control text_post_comment" name="comment_<?php echo $rows['id']; ?>" id="comment_<?php echo $rows['id']; ?>" placeholder="Your comments" ></textarea>
+                            </div>
+                            <div class="col-md-2">
+                            <button class="btn btn-success button_post_comment" href="javascript:void(0);" disabled="true" style="margin-top: 35px;" onclick="add_comment('<?php echo $rows['id']; ?>'); return false;">Submit</button>
+                            </div>
                         </div>
                         <span id="comment_<?php echo $rows['id']; ?>"></span>
                     </form>
@@ -77,3 +90,38 @@
         </li>
     </div>
 <?php }} //else echo "There is no post to show"; ?>
+
+<script>
+    $(document).ready(function(){
+//       
+//            console.log($('.status').length);
+//            $('.detailBox .text_post_comment').on('keypress','textarea', function (e) {
+//            console.log($(this).length);
+//            });
+//            
+//            console.log($('.actionBox').find('textarea').length);
+
+            $('.text_post_comment').on('keyup change', function()
+            {
+                if($(this).val().length)
+                {
+                    $(this).parent().next().find('.button_post_comment').attr("disabled", false);
+                }
+                else
+                {
+                    $(this).parent().next().find('.button_post_comment').attr("disabled", true);
+                }
+            });
+
+//             $('.text_post_comment').keyup(function(e) {
+//                
+//                if (e.which == 13) {
+//                //e.preventDefault();
+//                console.log(($(this).parent().next().find('.button_post_comment').length));
+//                $(this).parent().next().find('.button_post_comment').click();
+//                
+//                return false;
+//             }
+//         });
+         });
+</script>

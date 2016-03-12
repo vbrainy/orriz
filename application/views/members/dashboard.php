@@ -33,6 +33,9 @@ public/css/wall.css" />
     <![endif]-->
     <script type="text/javascript">
         $(document).ready(function(){
+            
+            $(this).scrollTop(0);
+            
             $total_records= <?php echo $this->data['total_records']; ?>;
             $records_per_page=<?php echo $this->data['records_per_page']; ?>;
             $number_of_pages=<?php echo $this->data['number_of_pages']; ?>;
@@ -56,23 +59,47 @@ public/css/wall.css" />
                 load_data($records_per_page,$start,$privacy,$friend_list);
             } 
             
-
-            function load_data($records_per_page,$start,$privacy,$friend_list){
+           $load_more=0; 
+           localStorage.setItem('load_more_complete', 0);
+           localStorage.setItem('load_more_ready', true);
+           function load_data($records_per_page,$start,$privacy,$friend_list, $load_more){
+                localStorage.setItem('load_more_ready', false);
+//               console.log($('.detailBox').length);
+//               if(!$('.detailBox').length)
+//               {
+//                   $start = 0;
+//               }
+//               else
+//               {
+//                    $start = $('.detailBox').length;
+//                }
+               //console.log($start);
                 $.ajax({
                     url: "<?php echo base_url('posts/ajex_load_posts'); ?>",
                     type: "post",
                     data:{"records_per_page": $records_per_page,"start": $start,"privacy": $privacy,"friends": $friend_list},
                     dataType: "html",
                     beforeSend:function(){
-                        $("#wallz").append("<span class='load'>loading..</span>");
+                        $("#wallz").append("<span class='load'><img src='<?php echo base_url() .$this->config->item('loading_image_path');?>'/></span>");
                     },
                     complete:function(){
                         $(".load").remove();
                     },
                     success:function(response){
                         
-                        $("#posts").html('');
-                        //console.log(response.length);
+                        if(!response) 
+                        {
+                            localStorage.setItem('load_more_complete', 1);
+                        }
+                        else
+                        {
+                            localStorage.setItem('load_more_ready', true);   
+                        }
+                       
+                        if($load_more != 'scroll')
+                        {
+                            $("#posts").html('');
+                        }
                         $("#posts").append(response);
                         
                         var result = $('<div />').append(response).find('#posts').html();
@@ -84,6 +111,7 @@ public/css/wall.css" />
                         {
                             $('#no_post_container').show();
                         }
+                        
 
                     }
                 });
@@ -91,10 +119,22 @@ public/css/wall.css" />
 
             $current_page=2;
             $(window).scroll(function(){
-                if($(window).scrollTop()+window.innerHeight==$(document).height()){
-                    $start=($current_page * $records_per_page)-$records_per_page;
-                    if($current_page<=$number_of_pages){
-                        load_data($records_per_page,$start,$privacy,$friend_list);
+                //if($(window).scrollTop() == $(document).height() - $(window).height()) {
+                if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
+                    //$start=($current_page * $records_per_page)-$records_per_page;
+                    if(localStorage.getItem('load_more_ready') == false) return;
+                    if(!$('.detailBox').length)
+                    {
+                        $start = 0;
+                    }
+                    else
+                    {
+                        $start = $('.detailBox').length;
+                    }
+                    //if($current_page<=$number_of_pages)
+                    if(localStorage.getItem('load_more_complete') == "0" && localStorage.getItem('load_more_ready') == "true")
+                    {
+                        load_data($records_per_page,$start,localStorage.getItem('privacy_flag'),$friend_list, 'scroll');
                         $current_page++;
                     }
                 }
@@ -102,12 +142,14 @@ public/css/wall.css" />
             
             $('.privacy_button').click(function(){
                 $('.privacy_button').removeClass('btn-success').addClass('btn-default');
+                $('#no_post_container').hide();
                 $('.privacy_button').attr('disabled', false);
+                localStorage.setItem('load_more_complete', 0);
                 changePrivacyButtonLookFill($(this));
                 var privacyFlag = $(this).attr('id');
                 localStorage.setItem('privacy_flag' , privacyFlag);
                 privacyFlag = localStorage.getItem('privacy_flag');
-                load_data($records_per_page,$start,privacyFlag,$friend_list);
+                load_data($records_per_page,0,privacyFlag,$friend_list);
             });
             
             function changePrivacyButtonLookFill(obj)
@@ -152,7 +194,7 @@ public/css/wall.css" />
                processData: false,
                contentType: false,
                beforeSend:function(){
-                   $("#wallz1").append("<span class='load'>Please wait.....</span>");
+                   $("#wallz1").append("<span class='load'><img src='<?php echo base_url() .$this->config->item('loading_image_path');?>'/></span>");
                },
                complete:function(){
                    $(".load").remove();
@@ -178,7 +220,6 @@ public/css/wall.css" />
            } );
            e.preventDefault();
            }); 
-            
             
         });
     </script>
@@ -246,14 +287,14 @@ public/css/wall.css" />
             <div class="posts-ads-container">
                 <div class="wall-posts">
                     <form role="form" id="myForm" action="" enctype="multipart/form-data" method="post">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-tabs" style="width: 96%">
                             <li class="active"><a data-toggle="tab" href="#home">Status Update</a></li>
                             <li><a data-toggle="tab" href="#menu1">Add Photo</a></li>
                         </ul>
                         <div class="tab-content">
                             
                             <div id="home" class="tab-pane fade in active">
-                                <textarea name="status" cols="82" id="status" rows="3" placeholder="Whats is in Your Mind?"></textarea>
+                                <textarea name="status" cols="87" id="status" rows="3" placeholder="Whats is in Your Mind?"></textarea>
                             </div>
                             
                             <div id="menu1" class="tab-pane fade" style="height: 71px;">
@@ -298,7 +339,6 @@ public/css/wall.css" />
                 </div>
                 <div id="wallz1" class="fb_wall">
                     <ul id="posts1">
-
                     </ul>
                 </div>
 <!--                <div id="amardev" ></div>-->
@@ -423,6 +463,9 @@ public/css/wall.css" />
 </script>
 <script>
     function add_comment(post_id){
+//        console.log(post_id);
+    $('#commentbox_'+post_id).find('.button_post_comment').off('click');
+    $('#commentbox_'+post_id).find('.button_post_comment').attr('disabled', true);
       var  comment= $('#comment_'+post_id).val();
 
         $.post('<?php echo base_url('posts/add_comment'); ?>',{post_id:post_id,comment:comment},function(data){
@@ -430,6 +473,7 @@ public/css/wall.css" />
                 $('#comment_'+post_id).val('');
 
                 get_comments(post_id);
+                
             }else
 
                 alert(data);
@@ -447,13 +491,6 @@ public/css/wall.css" />
 
 </script>
 <script type="text/javascript">
-
-    $(document).ready(function(){
-  
-       }
-
-   );
-
     function clear(){
         $("#myForm : input").each(function(){
             $(this).val("");
@@ -480,6 +517,7 @@ public/css/wall.css" />
             $('#post_id_'+post_id+'_likes').text(data);
         });
     }
+    
 </script>
 <!--<script>
     function comment_add(post_id){

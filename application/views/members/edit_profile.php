@@ -52,13 +52,13 @@
              <ul class="nav nav-tabs" role="tablist">
                  <li class="active"><a href="<?php echo base_url('members/edit_profile'); ?>">Edit profile info</a></li>
                  <li ><a href="<?php echo base_url('members/edit_about_yourself'); ?>">About yourself</a></li>
-                 <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">upload Image</a></li>
+                 <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">Upload Image</a></li>
                  <li><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
              </ul>
          </div>
 
 			<div class="col-xs-12">
-                            
+                             <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
 				<div class="first-step-form">
 					<div class="form-title">
 						<h5>Edit Profile</h5>

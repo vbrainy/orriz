@@ -637,6 +637,7 @@ class Ion_auth_model extends CI_Model
 	 **/
 	public function change_password($identity, $old, $new)
 	{
+           
 		$this->trigger_events('pre_change_password');
 
 		$this->trigger_events('extra_where');

@@ -42,7 +42,7 @@
       <div class="row">
              <div class="cover-picture-profile">
                 <div class="cover-picture" id="cover_picture">
-                    <div class="profile-picture">
+                   <div class="profile-picture">
                         <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(!empty($getStep1ProfileDetails->image)){ echo $getStep1ProfileDetails->image; }else echo "no.png"; ?>
 						" alt="Profile Picture" />
                     </div>
@@ -51,13 +51,13 @@
                             <div class="panel-body">
              <ul class="nav nav-tabs" role="tablist">
                  <li ><a href="<?php echo base_url('members/edit_profile'); ?>">Edit profile info</a></li>
-                 <li class="active" ><a href="<?php echo base_url('members/edit_about_yourself'); ?>">About yourself</a></li>
+                 <li ><a href="<?php echo base_url('members/edit_about_yourself'); ?>">About yourself</a></li>
                  <li><a href="<?php echo base_url('members/upload_profile_image'); ?>">Upload Image</a></li>
-                 <li><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
+                 <li class="active"><a href="<?php echo base_url('members/change_password'); ?>">Change Password</a></li>
              </ul>
          </div>
-
-			<div class="col-xs-12">
+  
+ 			<div class="col-xs-12">
                              <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
 				<div class="first-step-form">
 					<div class="form-title">
@@ -65,82 +65,36 @@
 					</div>
 					<div class="join-form-body">
 						<div class="from-body-container">
-							<h4 class="form-tagline">Edit about yourself</h4>
-							<form role="form" METHOD="post" action="<?php echo base_url('members/edit_about_yourself'); ?>">
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Music:</label>
+							<h4 class="form-tagline">Edit Your Profile Password</h4>
+							<form role="form" method="post" action="<?php echo base_url();?>members/change_password">
+                                                            
+                                                            
+                                                            
+							
+                                                            	<div class="details-form-group">
+									<div class="step-label-col">
+										<label class="step-label">Current Password:</label>
 									</div>
-									<div class="step-2-input-field">
-                                                                            <textarea placeholder="Your Fav. Music" name="music" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->music) ? trim($getStep2ProfileDetails->music) : "";  ?></textarea>
+									<div class="step-input-field">
+                                                                            <input type="password"   placeholder="Your Current Password" value="<?php echo set_value('password'); ?>" name="password"  class="join-form-control" required="required" />
+									</div>
+								</div>
+							<div class="details-form-group">
+									<div class="step-label-col">
+										<label class="step-label">New Password:</label>
+									</div>
+									<div class="step-input-field">
+                                                                            <input type="password"  placeholder="New Password" name="new_password" value="<?php echo set_value('new_password'); ?>"  class="join-form-control" required="required" />
 									</div>
 								</div>
 								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Movies:</label>
+									<div class="step-label-col">
+										<label class="step-label">Confirm Password:</label>
 									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Fav. Movies" name="movies" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->movies) ? trim($getStep2ProfileDetails->movies) : "";  ?></textarea>
+									<div class="step-input-field">
+                                                                            <input type="password"  placeholder="Confirm Password" name="new_confirm" value="<?php echo set_value('new_confirm'); ?>"  class="join-form-control" required="required" />
 									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">TV:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Fav. TV Shows" name="tv" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->tv) ? trim($getStep2ProfileDetails->tv) : "";  ?></textarea>
-									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Books:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Fav. Books" name="books" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->books) ? trim($getStep2ProfileDetails->books) : "";  ?></textarea>
-									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Sports:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Fav. Sports" name="sports" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->sports) ? trim($getStep2ProfileDetails->sports) : "";  ?></textarea>
-									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Interests:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Interests" name="interests" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->interests) ? trim($getStep2ProfileDetails->interests) : "";  ?></textarea>
-									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Dreams:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Dreams" name="dreams" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->dreams) ? trim($getStep2ProfileDetails->dreams) : "";  ?></textarea>
-									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">Best Feature:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="Your Best Feature" name="best_feature" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->best_feature) ? trim($getStep2ProfileDetails->best_feature) : "";  ?></textarea>
-									</div>
-								</div>
-								<div class="details-form-group">
-									<div class="step-2-label-col">
-										<label class="second-step-label">About Me:</label>
-									</div>
-									<div class="step-2-input-field">
-										<textarea placeholder="About Me" name="about_me" class="join-form-control second-form-textarea"><?php echo !empty($getStep2ProfileDetails->about_me) ? trim($getStep2ProfileDetails->about_me) : "";  ?></textarea>
-									</div>
-								</div>
-								
-								<div class="details-form-group">
+								</div><div class="details-form-group">
 									<div class="step-label-col">
 									</div>
 									<div class="step-input-field">
@@ -151,7 +105,7 @@
 										</div>
 									</div>
 								</div>
-							</form>		
+							</form>	
 						</div>
 					</div>
 				</div>
