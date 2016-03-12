@@ -49,7 +49,7 @@ class Posts_model extends CI_Model
 
     }
     public function select_rows_privacy1($start,$limit,$friend_list){
-        $friend_list = join(', ', $friend_list);
+        //$friend_list = join(', ', $friend_list);
         $q = "SELECT posts.id,posts.status,posts.photos , posts.time ,members.first_name,members.last_name, members.image, COUNT(posts_like.id) as likes, GROUP_CONCAT(members.first_name SEPARATOR '|') AS liked_by from posts left JOIN posts_like ON posts.id=posts_like.post_id left join members on members.id=posts.member_id where posts.privacy =1  Group by posts.id order by posts.id DESC Limit $start, $limit";
         $query= $this->db->query($q);
         //print_R($query->result_array());
@@ -57,17 +57,17 @@ class Posts_model extends CI_Model
 
     }
     public function select_rows_privacy2($start,$limit,$friend_list){
-        $friend_list = join(', ', $friend_list);
+        //$friend_list = join(', ', $friend_list);
         //echo $q = "SELECT posts.id,posts.status,posts.photos , posts.time ,members.first_name,members.last_name, members.image, COUNT(posts_like.id) as likes, GROUP_CONCAT(members.first_name SEPARATOR '|') AS liked_by from posts left JOIN posts_like ON posts.id=posts_like.post_id left join members on members.id=posts.member_id where posts.member_id in($friend_list) and posts.privacy=2  Group by posts.id order by posts.id DESC Limit $start,$limit";
-        $q = "SELECT posts.id,posts.status,posts.photos , posts.time ,members.first_name,members.last_name, members.image, COUNT(posts_like.id) as likes, GROUP_CONCAT(members.first_name SEPARATOR '|') AS liked_by from posts left JOIN posts_like ON posts.id=posts_like.post_id left join members on members.id=posts.member_id where posts.member_id in($friend_list) and posts.privacy=2  Group by posts.id order by posts.id DESC Limit $start,$limit";
+        $q = "SELECT posts.id,posts.status,posts.photos , posts.time ,members.first_name,members.last_name, members.image, COUNT(posts_like.id) as likes, GROUP_CONCAT(members.first_name SEPARATOR '|') AS liked_by from posts left JOIN posts_like ON posts.id=posts_like.post_id left join members on members.id=posts.member_id where posts.privacy=2  Group by posts.id order by posts.id DESC Limit $start,$limit";
         $query= $this->db->query($q);
         //print_R($query->result_array());exit;
         return $query->result_array();
 
     }
     public function select_rows_privacy3($start,$limit,$friend_list){
-       $friend_list = join(', ', $friend_list);
-       $q = "SELECT posts.id,posts.status,posts.photos , posts.time ,members.first_name,members.last_name, members.image, COUNT(posts_like.id) as likes, GROUP_CONCAT(members.first_name SEPARATOR '|') AS liked_by from posts left JOIN posts_like ON posts.id=posts_like.post_id left join members on members.id=posts.member_id where posts.member_id =$friend_list and posts.privacy=3 Group by posts.id order by posts.id DESC Limit $start, $limit";
+       //$friend_list = join(', ', $friend_list);
+       $q = "SELECT posts.id,posts.status,posts.photos , posts.time ,members.first_name,members.last_name, members.image, COUNT(posts_like.id) as likes, GROUP_CONCAT(members.first_name SEPARATOR '|') AS liked_by from posts left JOIN posts_like ON posts.id=posts_like.post_id left join members on members.id=posts.member_id where posts.privacy=3 Group by posts.id order by posts.id DESC Limit $start, $limit";
        $query= $this->db->query($q);
        // print_R($query->result_array());exit;
         return $query->result_array();

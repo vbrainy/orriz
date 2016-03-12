@@ -6,7 +6,7 @@
                 <div class="col-md-6">
                         <div class="userImage">
                             <a style="font-size: 15px;" href="#" target="_blank"><?php echo $rows['first_name'].'  '.$rows['last_name'];?></a>
-                            <img style="width: 70px; height: 60px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>" class="avatar">
+                            <img style="width: 50px; height: 50px; margin-left:5px; margin-top:5px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>" class="avatar">
                         </div>
                 </div>
                 <div class="col-md-5">
@@ -33,7 +33,8 @@
 
                     <img class="external_pic" src="<?php echo base_url(); ?>public/images/pic/<?php echo $rows['photos'];?>
 								"> <?php } ?>
-
+                    
+                    <div class="clearfix"></div>
 
 
                 <h5><a href="" onclick="like_add('<?php echo $rows['id']; ?>'); return false;"><span id="heart_<?php echo $rows['id']; ?>" class="glyphicon glyphicon-heart"></span></a> <span id="<?php echo "post_id_".$rows['id']."_likes"; ?>"><?php echo $rows['likes']; ?>
@@ -71,7 +72,7 @@
 <!--                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>-->
 <!---->
 <!--                            </div>-->
-<!--                        </li>-->
+<!--                        </li>Whats is in Your Mind?-->
                     </ul>
                     <form class="form-inline" role="form" id="commentbox_<?php echo $rows['id']; ?>" action="<?php echo base_url('posts/add_comment'); ?>" method="post" >
                         <div class="row">
