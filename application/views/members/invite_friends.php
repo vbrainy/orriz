@@ -36,7 +36,7 @@
                 limit : 10
             });
         });
-    </script>
+    </script>  
     <![endif]-->
 
     <!--[if lt IE 9]>
