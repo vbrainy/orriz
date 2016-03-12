@@ -392,7 +392,11 @@ $this->data['getStep2ProfileDetails'] = $this->member_model->getStep1ProfileDeta
     
      public function upload_profile_image()
     {
-        $this->load->view('members/edit_uploadimage');
+         $id                  = $this->session->userdata('user_id');
+          $user          = $this->ion_auth->user($id)->row();
+         // p($user->image);
+          $this->data['image_details'] = $user->image;
+        $this->load->view('members/edit_uploadimage',$this->data);
        // p(51);
     }
     
