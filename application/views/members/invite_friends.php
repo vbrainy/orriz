@@ -100,9 +100,10 @@ Invite to join orriz:</label>
 </div>
                 <div class="step-input-field">
                     <button type="button" id="btn-email" class="btn btn-primary">Invite</button>
-										
-									</div>
+                    <a href="javascript:void(0);" class="googleContactsButton">Import Friends</a>
+		</div>
             </form>
+            
                 </div><!--/row-->
 
 
@@ -204,19 +205,14 @@ Invite to join orriz:</label>
                     if (data == 0) {
                     $('#faield').hide();
                     $('#successs').hide();
-                    $('#faield span').text('User is already invited');
+                    $('#faield span').text('Something going wrong');
                     $('#faield').show();
                 } else if (data == 1) {
                     $('#faield').hide();
                     $('#successs').hide();
                     $('#successs span').text('Invitation has been successfully sent.');
                     $('#successs').show();
-                } else if (data == 2) {
-                    $('#faield').hide();
-                    $('#successs').hide();
-                    $('#faield span').text('User is already using');
-                    $('#faield').show();
-                }
+                } 
                 },
             });
     });
@@ -226,6 +222,62 @@ Invite to join orriz:</label>
         return regex.test(email);
     }
     
+</script>
+<script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // 1074175154926-pe504grbo95bk48i0ggkv33nfdska8on.apps.googleusercontent.com 
+    //8qhiR2-gKZ4wWCq603u2P0F0 
+    
+    // client secrete  MDfRyKoVwqka8gGicG-LmKgI 
+    //  5_ZhEFMbYbn4ZgcGgZSEgYHu 
+    var clientId = '1074175154926-pe504grbo95bk48i0ggkv33nfdska8on.apps.googleusercontent.com';
+   
+    var apiKey = 'AIzaSyB6Pd4YgVw7Kmy_tWTuYWYHDPRGTPLeFlE';
+    var scopes = 'https://www.googleapis.com/auth/contacts.readonly';
+    $(document).on("click", ".googleContactsButton", function (e) {
+        if($('.fa-google .socialCheck').length == 0) {
+             $('.fa-google').append('<span class="socialCheck"></span>');
+        }
+        gapi.client.setApiKey(apiKey);
+        window.setTimeout(authorize);
+    });
+    function authorize() {
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthorization);
+    }
+
+    function handleAuthorization(authorizationResult) {
+        if (authorizationResult && !authorizationResult.error) {
+           
+            $.get("https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=" + authorizationResult.access_token + "&max-results=1000&alt=json",
+                    function (response) {
+                        //process the response here
+                        var arrContact = response.feed.entry;
+                       
+                        $.each(arrContact, function (key, value) {
+                            
+                   if(typeof(value.gd$email) != "undefined" && value.gd$email !== null){
+                       
+                          var email = value.gd$email[0].address;
+                            var name = value.title.$t;
+                            if (name == '') {
+                                name = email;
+                            }
+                            alert(email);
+                       
+                   }
+                        
+                              var html = '<div class="friend_find"> <div class="friendPic"> <span><img src="/images/user-blank.png" alt=""></span> </div><label> ' + name + ' </label><div class="checkFriend"><div onclick="invitegmail(\'' + email + '\',this)"  class="radio_frnd"></div></div></div>';
+                            $('#invite_user').append(html);
+                            $('#twit_invite').hide();
+                            $('#fb_invite').hide(); 
+                     
+                         
+                        });
+                       
+                    });
+        }
+    }
 </script>
 </body>
 </html>

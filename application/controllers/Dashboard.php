@@ -607,7 +607,10 @@ class Dashboard extends Members_Controller
            
            echo  1;
            exit();
-        } 
+        } else{
+            return 0;
+             exit();
+        }
        
 
     }
