@@ -101,6 +101,7 @@ Invite to join orriz:</label>
                 <div class="step-input-field">
                     <button type="button" id="btn-email" class="btn btn-primary">Invite</button>
                     <a href="javascript:void(0);" class="googleContactsButton">Import Friends</a>
+                    <a href="javascript:void(0);" id="import">Import Yahoo contacts</a>
 		</div>
             </form>
             
@@ -278,6 +279,59 @@ Invite to join orriz:</label>
                     });
         }
     }
+</script>
+
+<script src="//js.live.net/v5.0/wl.js"></script>
+
+<script type="text/javascript">
+    var APP_CLIENT_ID = '';
+    var REDIRECT_URL = 'dlVbMXa48sA83H3aUIG7GOnY5-6wwnDh';
+WL.init({
+    client_id: '000000004418101D',
+    redirect_uri: 'http://localhost/orriz/dashboard/invitefriends',
+    scope: ["wl.basic", "wl.contacts_emails"],
+    response_type: "token"
+});
+
+
+
+$( document ).ready(function() {
+ 
+ //live.com api
+ $('#import').click(function(e) {
+     e.preventDefault();
+     WL.login({
+         scope: ["wl.basic", "wl.contacts_emails"]
+     }).then(function (response) 
+     {
+ WL.api({
+             path: "me/contacts",
+             method: "GET"
+         }).then(
+             function (response) {
+                        //your response data with contacts 
+                        var arrContact = response.data;
+                       
+                        $.each(arrContact, function (key, value) {
+                            console.log(value.emails.preferred);
+                           // return false;
+                        });
+            //  console.log(response.data);
+             },
+             function (responseFailed) {
+              //console.log(responseFailed);
+             }
+         );
+         
+     },
+     function (responseFailed) 
+     {
+         console.log("Error signing in: " + responseFailed.error_description);
+     });
+ });    
+ 
+});
+
 </script>
 </body>
 </html>
