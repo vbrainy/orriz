@@ -342,7 +342,7 @@ function invitegmail(email){
                     $('#faield span').text('Something going wrong');
                     $('#faield').show();
                 } else if (data == 1) {
-                   
+                    $('#faield').hide();
                    $('#successs span').text('Invitation has been successfully sent.');
                     $('#successs').show();
                 } 
