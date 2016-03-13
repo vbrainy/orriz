@@ -22,30 +22,15 @@
     <script src="<?php echo base_url(); ?>public/js/jquery-1.11.3.min.js"></script>
     <!--Bootstrap Jquery-->
     <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
-
-
-
-<!--    <script src="--><?php // echo base_url(); ?><!--public/js/typeahead.min.js"></script>-->
-
-    <!--[if lt IE 9]>
-    <script>
-        $(document).ready(function(){
-            $('input.typeahead').typeahead({
-                name: 'typeahead',
-                remote:'<?php echo base_url('dashboard/suggestions'); ?>?key=%QUERY',
-                limit : 10
-            });
-        });
-    </script>  
-    <![endif]-->
-
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/2.7.0/
-           html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.2.0/
-           respond.min.js"></script>
-    <![endif]-->
-
+    <style>
+        .googleContactsButton {
+            margin-top:10px;
+        }
+        .Hotmail{
+             margin-top:10px;
+        }
+        
+    </style>
 </head>
 <body>
 
@@ -100,11 +85,15 @@ Invite to join orriz:</label>
 </div>
                 <div class="step-input-field">
                     <button type="button" id="btn-email" class="btn btn-primary">Invite</button>
-                    <a href="javascript:void(0);" class="googleContactsButton">Import Friends</a>
-                    <a href="javascript:void(0);" id="import">Import Yahoo contacts</a>
+                    
 		</div>
             </form>
-            
+            <div class="clearfix"></div>
+            <a type="button" href="javascript:void(0);" class="googleContactsButton btn btn-danger" >Import Gmail Friends</a>
+                    <a href="javascript:void(0);" class="Hotmail btn btn-success"  id="import">Import Hotmail contacts</a>
+            <div class="row" id="listing_friends">
+               
+                </div>
                 </div><!--/row-->
 
 
@@ -264,19 +253,15 @@ Invite to join orriz:</label>
                             if (name == '') {
                                 name = email;
                             }
-                            alert(email);
-                       
-                   }
-                        
-                              var html = '<div class="friend_find"> <div class="friendPic"> <span><img src="/images/user-blank.png" alt=""></span> </div><label> ' + name + ' </label><div class="checkFriend"><div onclick="invitegmail(\'' + email + '\',this)"  class="radio_frnd"></div></div></div>';
-                            $('#invite_user').append(html);
-                            $('#twit_invite').hide();
-                            $('#fb_invite').hide(); 
-                     
                          
-                        });
-                       
+                              var html = '<div id="friends_contact" class=' + email + '><div class="col-xs-12 col-md-8"><input onclick="invitegmail(\'' + email + '\',this)"  type="checkbox" /><label>' + name + ' </label></div></div>';
+                            $('#listing_friends').append(html);   
+                                     }
+                        
+                                  });
                     });
+                    
+                     $('.googleContactsButton').prop('disabled', true);
         }
     }
 </script>
@@ -296,7 +281,7 @@ WL.init({
 
 
 $( document ).ready(function() {
- 
+
  //live.com api
  $('#import').click(function(e) {
      e.preventDefault();
@@ -314,6 +299,14 @@ $( document ).ready(function() {
                        
                         $.each(arrContact, function (key, value) {
                             console.log(value.emails.preferred);
+                            
+                                   if(typeof(value.emails.preferred) != "undefined" && value.emails.preferred !== null){
+                       
+                          var email = value.emails.preferred;
+                            var name = value.emails.preferred;
+                              var html = '<div class=' + email + '><div class="col-xs-12 col-md-8"><input  onclick="invitegmail(\'' + email + '\',this)"  type="checkbox" /><label>' + name + ' </label></div></div>';
+                            $('#listing_friends').append(html);   
+                   }
                            // return false;
                         });
             //  console.log(response.data);
@@ -328,9 +321,34 @@ $( document ).ready(function() {
      {
          console.log("Error signing in: " + responseFailed.error_description);
      });
+     
+       $('#import').prop('disabled', true);
  });    
+
  
 });
+
+
+function invitegmail(email){
+      $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('dashboard/invitefriends'); ?>',
+                data: {'email': email},
+                success: function (data) {
+                  
+                    if (data == 0) {
+                    $('#faield').hide();
+                    $('#successs').hide();
+                    $('#faield span').text('Something going wrong');
+                    $('#faield').show();
+                } else if (data == 1) {
+                   
+                   $('#successs span').text('Invitation has been successfully sent.');
+                    $('#successs').show();
+                } 
+                },
+            });
+}
 
 </script>
 </body>
