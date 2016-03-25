@@ -22,30 +22,15 @@
     <script src="<?php echo base_url(); ?>public/js/jquery-1.11.3.min.js"></script>
     <!--Bootstrap Jquery-->
     <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
-
-
-
-<!--    <script src="--><?php // echo base_url(); ?><!--public/js/typeahead.min.js"></script>-->
-
-    <!--[if lt IE 9]>
-    <script>
-        $(document).ready(function(){
-            $('input.typeahead').typeahead({
-                name: 'typeahead',
-                remote:'<?php echo base_url('dashboard/suggestions'); ?>?key=%QUERY',
-                limit : 10
-            });
-        });
-    </script>
-    <![endif]-->
-
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/2.7.0/
-           html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.2.0/
-           respond.min.js"></script>
-    <![endif]-->
-
+    <style>
+        .googleContactsButton {
+            margin-top:10px;
+        }
+        .Hotmail{
+             margin-top:10px;
+        }
+        
+    </style>
 </head>
 <body>
 
@@ -100,9 +85,15 @@ Invite to join orriz:</label>
 </div>
                 <div class="step-input-field">
                     <button type="button" id="btn-email" class="btn btn-primary">Invite</button>
-										
-									</div>
+                    
+		</div>
             </form>
+            <div class="clearfix"></div>
+            <a type="button" href="javascript:void(0);" class="googleContactsButton btn btn-danger" >Import Gmail Friends</a>
+                    <a href="javascript:void(0);" class="Hotmail btn btn-success"  id="import">Import Hotmail contacts</a>
+            <div class="row" id="listing_friends">
+               
+                </div>
                 </div><!--/row-->
 
 
@@ -204,19 +195,14 @@ Invite to join orriz:</label>
                     if (data == 0) {
                     $('#faield').hide();
                     $('#successs').hide();
-                    $('#faield span').text('User is already invited');
+                    $('#faield span').text('Something going wrong');
                     $('#faield').show();
                 } else if (data == 1) {
                     $('#faield').hide();
                     $('#successs').hide();
                     $('#successs span').text('Invitation has been successfully sent.');
                     $('#successs').show();
-                } else if (data == 2) {
-                    $('#faield').hide();
-                    $('#successs').hide();
-                    $('#faield span').text('User is already using');
-                    $('#faield').show();
-                }
+                } 
                 },
             });
     });
@@ -226,6 +212,144 @@ Invite to join orriz:</label>
         return regex.test(email);
     }
     
+</script>
+<script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // 1074175154926-pe504grbo95bk48i0ggkv33nfdska8on.apps.googleusercontent.com 
+    //8qhiR2-gKZ4wWCq603u2P0F0 
+    
+    // client secrete  MDfRyKoVwqka8gGicG-LmKgI 
+    //  5_ZhEFMbYbn4ZgcGgZSEgYHu 
+    var clientId = '1074175154926-pe504grbo95bk48i0ggkv33nfdska8on.apps.googleusercontent.com';
+   
+    var apiKey = 'AIzaSyB6Pd4YgVw7Kmy_tWTuYWYHDPRGTPLeFlE';
+    var scopes = 'https://www.googleapis.com/auth/contacts.readonly';
+    $(document).on("click", ".googleContactsButton", function (e) {
+        if($('.fa-google .socialCheck').length == 0) {
+             $('.fa-google').append('<span class="socialCheck"></span>');
+        }
+        gapi.client.setApiKey(apiKey);
+        window.setTimeout(authorize);
+    });
+    function authorize() {
+        gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, handleAuthorization);
+    }
+
+    function handleAuthorization(authorizationResult) {
+        if (authorizationResult && !authorizationResult.error) {
+           
+            $.get("https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=" + authorizationResult.access_token + "&max-results=1000&alt=json",
+                    function (response) {
+                        //process the response here
+                        var arrContact = response.feed.entry;
+                       
+                        $.each(arrContact, function (key, value) {
+                            
+                   if(typeof(value.gd$email) != "undefined" && value.gd$email !== null){
+                       
+                          var email = value.gd$email[0].address;
+                            var name = value.title.$t;
+                            if (name == '') {
+                                name = email;
+                            }
+                         
+                              var html = '<div id="friends_contact" class=' + email + '><div class="col-xs-12 col-md-8"><input onclick="invitegmail(\'' + email + '\',this)"  type="checkbox" /><label>' + name + ' </label></div></div>';
+                            $('#listing_friends').append(html);   
+                                     }
+                        
+                                  });
+                    });
+                    
+                     $('.googleContactsButton').prop('disabled', true);
+        }
+    }
+</script>
+
+<script src="//js.live.net/v5.0/wl.js"></script>
+
+<script type="text/javascript">
+    var APP_CLIENT_ID = '';
+    var REDIRECT_URL = 'dlVbMXa48sA83H3aUIG7GOnY5-6wwnDh';
+WL.init({
+    client_id: '000000004418101D',
+    redirect_uri: 'http://localhost/orriz/dashboard/invitefriends',
+    scope: ["wl.basic", "wl.contacts_emails"],
+    response_type: "token"
+});
+
+
+
+$( document ).ready(function() {
+
+ //live.com api
+ $('#import').click(function(e) {
+     e.preventDefault();
+     WL.login({
+         scope: ["wl.basic", "wl.contacts_emails"]
+     }).then(function (response) 
+     {
+ WL.api({
+             path: "me/contacts",
+             method: "GET"
+         }).then(
+             function (response) {
+                        //your response data with contacts 
+                        var arrContact = response.data;
+                       
+                        $.each(arrContact, function (key, value) {
+                            console.log(value.emails.preferred);
+                            
+                                   if(typeof(value.emails.preferred) != "undefined" && value.emails.preferred !== null){
+                       
+                          var email = value.emails.preferred;
+                            var name = value.emails.preferred;
+                              var html = '<div class=' + email + '><div class="col-xs-12 col-md-8"><input  onclick="invitegmail(\'' + email + '\',this)"  type="checkbox" /><label>' + name + ' </label></div></div>';
+                            $('#listing_friends').append(html);   
+                   }
+                           // return false;
+                        });
+            //  console.log(response.data);
+             },
+             function (responseFailed) {
+              //console.log(responseFailed);
+             }
+         );
+         
+     },
+     function (responseFailed) 
+     {
+         console.log("Error signing in: " + responseFailed.error_description);
+     });
+     
+       $('#import').prop('disabled', true);
+ });    
+
+ 
+});
+
+
+function invitegmail(email){
+      $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('dashboard/invitefriends'); ?>',
+                data: {'email': email},
+                success: function (data) {
+                  
+                    if (data == 0) {
+                    $('#faield').hide();
+                    $('#successs').hide();
+                    $('#faield span').text('Something going wrong');
+                    $('#faield').show();
+                } else if (data == 1) {
+                    $('#faield').hide();
+                   $('#successs span').text('Invitation has been successfully sent.');
+                    $('#successs').show();
+                } 
+                },
+            });
+}
+
 </script>
 </body>
 </html>
