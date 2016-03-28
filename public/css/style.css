@@ -1083,6 +1083,7 @@ input.file-upload-btn:hover {
 
 }
 
+
 .tab-content textarea{ width:100%; border:none; float:left; }
 .nav-tabs{ border-bottom:none;}
 .tab-pane{ border:1px solid #c5c5c5; padding:0 10px; margin-bottom:15px; float:left; width:100%;}
@@ -1633,4 +1634,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdc82c', end
 	display:block;
 }
 
+
+
+.wraptext {
+    display: block;
+    margin-left: 640px;
+    margin-top: 55px;
+    position: absolute;
+    width: 100%;
+    z-index: 2;
+}
 

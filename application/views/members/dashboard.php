@@ -223,7 +223,8 @@ public/css/wall.css" />
            } );
            e.preventDefault();
            }); 
-            
+          
+                
         });
     </script>
 </head>
@@ -241,7 +242,9 @@ public/css/wall.css" />
                     <div class="profile-picture">
                         <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(!empty($image)){ echo $image; }else echo "no.png"; ?>
 						" alt="Profile Picture" />
+                        
                     </div>
+                    <h3 class="wraptext" id="wraptextelement"></h3>
                 </div>
             </div>
         </div>
@@ -422,17 +425,30 @@ public/css/wall.css" />
         }else
             hour= time*60+minute-timezone;
         currenttime= hour/60;
+        
+        var theDiv = document.getElementById("wraptextelement");
+        var content;
         if (currenttime >= 5 && currenttime < 10) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/morning.png)";
+            content = document.createTextNode("Morning");
         }else if(currenttime >= 10 && currenttime < 16){
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/afternoon.png)";
+            content = document.createTextNode("Afternoon");
         }else if (currenttime >= 16 && currenttime < 19){
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/evening.png)";
+            content = document.createTextNode("Evening");
         }else if(currenttime >= 19 && currenttime < 30) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/night.png)";
+            content = document.createTextNode("Night");
         }else if(currenttime >= 0 && currenttime < 5) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/night.png)";
+            content = document.createTextNode("Mid Night");
         }
+        var breakLine = document.createElement("br");
+        var dummyText =  document.createTextNode("Dummy text for 1 liner or 2 liner");
+        theDiv.appendChild(content);
+        theDiv.appendChild(breakLine);
+        theDiv.appendChild(dummyText);
     }
 </script>
 <script>
