@@ -102,7 +102,7 @@
                         <div class="orriztime-comment post">
                                     <div class="orriztime-comment-left">
                                         <div class="thumbnail orriztime-comment-triangle-right">
-                                            <img src="images/06.png" alt="">
+                                            <img src="<?php echo base_url(); ?>public/images/06.png" alt="">
                                         </div>
                                     </div>
                                     <div class="orriztime-container orriztime-comment-container">
