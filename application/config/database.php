@@ -78,7 +78,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'orrizmlm',
+	'database' => 'openfire',
 //
 //	'dsn'	=> 'mysql:host=localhost; dbname=orrizmlm; charset=utf8;',
 //	'hostname' => 'localhost',

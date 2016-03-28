@@ -9,7 +9,8 @@
 public/css/bootstrap.min.css" />
     <!--Custom Css-->
     <link rel="stylesheet" href="<?php echo base_url(); ?>
-public/css/style.css" />
+public/css/style.css" /> 
+    
     <!--Media Queries Css-->
     <link rel="stylesheet" href="<?php echo base_url(); ?>
 public/css/screen.css" />
@@ -19,6 +20,7 @@ public/css/screen.css" />
     <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>
 public/css/popup.css" rel="stylesheet" type="text/css" />
+    
     <link rel="stylesheet" href="<?php echo base_url(); ?>
 public/css/error.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>
@@ -74,6 +76,7 @@ public/css/wall.css" />
 //                    $start = $('.detailBox').length;
 //                }
                //console.log($start);
+               console.log(localStorage);
                 $.ajax({
                     url: "<?php echo base_url('posts/ajex_load_posts'); ?>",
                     type: "post",
@@ -101,13 +104,13 @@ public/css/wall.css" />
                             $("#posts").html('');
                         }
                         $("#posts").append(response);
-                        
+                        //alert(response);
                         var result = $('<div />').append(response).find('#posts').html();
                         
                         $('#posts').html(result);
 
                         
-                        if(!$('.detailBox').length)
+                        if(!$('.no_more_post').length)
                         {
                             $('#no_post_container').show();
                         }
@@ -123,13 +126,13 @@ public/css/wall.css" />
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
                     //$start=($current_page * $records_per_page)-$records_per_page;
                     if(localStorage.getItem('load_more_ready') == false) return;
-                    if(!$('.detailBox').length)
+                    if(!$('.no_more_post').length)
                     {
                         $start = 0;
                     }
                     else
                     {
-                        $start = $('.detailBox').length;
+                        $start = $('.no_more_post').length;
                     }
                     //if($current_page<=$number_of_pages)
                     if(localStorage.getItem('load_more_complete') == "0" && localStorage.getItem('load_more_ready') == "true")
@@ -334,18 +337,19 @@ public/css/wall.css" />
                 
                 <br>
                 
-                <div id="no_post_container" style="display: none;">
-                    There is not posts available.
-                </div>
+             
                 <div id="wallz1" class="fb_wall">
                     <ul id="posts1">
                     </ul>
                 </div>
 <!--                <div id="amardev" ></div>-->
                 <div id="wallz" class="fb_wall">
-                       <ul id="posts">
+                    <div id="posts"> </div>
+                      
+                </div>
 
-                        </ul>
+   <div id="no_post_container" style="display: none;">
+                    There is not posts available.
                 </div>
 					<span class="text-center">
 					<ul class="pagination pagination-lg">
@@ -503,16 +507,26 @@ public/css/wall.css" />
 <script>
     
     function like_add(post_id){
+        
+        
+        
         $.post('<?php echo base_url('posts/like_post'); ?>',{post_id:post_id},function(data){
-            if(data=='success'){
+            
+        //   alert(data);
+            if(data=='1'){
                 like_get(post_id);
-                $('#heart_'+post_id).hide();
+                $('#hearts_'+post_id).hide();
+                  $('#heart_'+post_id).text('Unlike');
 
-            }else
-                $('#heart_'+post_id).hide();
+            }else{
+                  like_get(post_id);
+                $('#hearts_'+post_id).hide();
+            $('#heart_'+post_id).text('like');
+        }
         });
     }
     function like_get(post_id){
+      
         $.post('<?php echo base_url('posts/get_like'); ?>',{post_id:post_id},function(data){
             $('#post_id_'+post_id+'_likes').text(data);
         });
