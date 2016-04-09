@@ -1679,3 +1679,11 @@ background: #78c363 none repeat scroll 0 0;
     
 }
 
+.browse_box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    position: relative;
+    margin-top: 5px;
+}
+
