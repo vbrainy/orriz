@@ -191,8 +191,7 @@ class Member_Model extends CI_Model
                             WHEN F.friend_two= '$UserID'
                             THEN F.friend_one= M.id
                             END
-                            AND
-                            F.status='1' OR F.status='2' ");
+                           ");
         $friendList =  $query1->result_array();
         
       //  p($friendList);
