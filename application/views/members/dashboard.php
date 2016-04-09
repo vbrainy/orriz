@@ -188,8 +188,7 @@ public/css/wall.css" />
             }
             
             
-             $( '#myForm' )
-       .submit( function( e ) {
+             $( '#myForm' ).submit( function( e ) {
            $.ajax( {
                url: '<?php echo base_url('posts/status_insert'); ?>',
                type: 'POST',

@@ -179,15 +179,33 @@ class Member_Model extends CI_Model
         if ($limit != '' && $offset == 0) {
             $this->db->limit($limit);
         } else if ($limit != '' && $offset != 0) {
+           
             $this->db->limit($limit, $offset);
         }
         $UserID = $this->session->userdata('user_id');
-         $ids = array('1',$UserID);
+        
+       $query1 = $this->db->query("SELECT F.status,M.id
+                            FROM members M, friends F WHERE CASE
+                            WHEN F.friend_one = '$UserID'
+                            THEN F.friend_two = M.id
+                            WHEN F.friend_two= '$UserID'
+                            THEN F.friend_one= M.id
+                            END
+                            AND
+                            F.status='1' OR F.status='2' ");
+        $friendList =  $query1->result_array();
+        
+      //  p($friendList);
+          $ids = array('1',$UserID);
+        if(!empty($friendList)){
+            $ids =['1',$UserID];
+            foreach ($friendList as $key => $value) {
+                $ids[] = $value['id'];
+            }
+  
+        }
          $p = $this->db->where_not_in('id', $ids);
          $query = $p->get_where('members');
-
-        
-      //  $query =  $this->db->get('members');
         if ($query->num_rows() > 0) {
             
             

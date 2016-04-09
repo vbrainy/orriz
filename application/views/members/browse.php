@@ -75,18 +75,15 @@
 
           <?php if(!empty($users)){
             foreach($users as $rows){
-            
+           
             $time = strtotime($rows['last_activity_timestamp']);
 
             $curtime = time();
             $status = "statusdeactive";
            // p(intval($curtime-$time));
-            if(($curtime-$time) > 1200) { 
-                
+            if(($time - $curtime) > 1200) { 
                 $status = "statusactive";
-            }
-            
-                ?>
+            }  ?>
             <div class="col-md-2">
                 <div class="productbox">
                     <div class="imgthumb img-responsive">
@@ -95,9 +92,7 @@
                     <div class="<?php echo $status; ?>" title="Online Now" rel="online">Online</div>
                     <div >
                         <div class="text-center" style="font-size: 12px;"><strong> <?php echo $rows['first_name'].' '.$rows['last_name'] ?></strong></div>
-                        <a class="btn btn-info btn-xs" role="button" href="<?php
-                        echo base_url('dashboard/requestaccept').'?friend_id='.$rows['id'];
-                        ?>">Add Friend</a>  
+                        <a id="<?php echo $rows['id']; ?>" href="javascript:void(0);" class="btn btn-info btn-xs btn_add_friend">Add Friend</a>  
 
                     </div>
                 </div>
@@ -212,5 +207,39 @@
 
         ;}
 </script>
+
+<script>
+    addFriendsUrl = "<?php echo base_url('dashboard/request'); ?>";
+    $(document).on('click', '.btn_add_friend', function () {
+        
+      var friend_id = $(this).attr("id");
+      var class1 = this;
+     // alert(friend_id);
+     $.ajax({
+                url: addFriendsUrl,
+                cache: false,
+                // dataType: 'json',
+                data: {
+                    friend_id: friend_id,
+                },
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    
+                    if (data) {
+
+                         $(class1).html("Request Sent");
+                         $(class1).removeClass("btn_add_friend");
+                       
+                    }
+                }
+            });
+    
+    });
+
+</script>
+
+
+
 </body>
 </html>

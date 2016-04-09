@@ -521,12 +521,14 @@ class Dashboard extends Members_Controller
         echo json_encode($result);
     }
     public function request(){
-       $friend_two=$_GET['friend_id'];
+       $friend_two=$_REQUEST['friend_id'];
         $friend_one=$this->session->userdata('user_id');
         $data=['friend_one'=>$friend_one,
         'friend_two'=>$friend_two];
         $this->member_model->friend_requests($data);
-          redirect('dashboard/search');
+        echo 1;        
+
+//  redirect('dashboard/search');
 
     }
     public function friends(){
@@ -622,7 +624,7 @@ class Dashboard extends Members_Controller
 // By New Code 
  public function browse()
 {
-                $limit = $this->paging['per_page'];
+                $limit = 10; //$this->paging['per_page'];
                
                 $offset = ($this->uri->segment(3) != '') ? $this->uri->segment(3) : 0;
 
