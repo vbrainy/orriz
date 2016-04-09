@@ -14,6 +14,8 @@ class Dashboard extends Members_Controller
         $this->load->model('ad_model');
         $this->load->helper('tree_helper');
         $this->load->library('pagination');
+          $this->config->load('paging', TRUE);
+        $this->paging = $this->config->item('paging');// p( $this->paging);
         $user_detail                  = $this->member_model->get_where($this->session->userdata('user_id'));
         $this->data['image']          = $user_detail['0']['image'];
         $this->data['first_name']     = $user_detail['0']['first_name'];
@@ -22,6 +24,7 @@ class Dashboard extends Members_Controller
         $this->data['active']         = $user_detail['0']['active'];
         $this->data['privacy']         = $user_detail['0']['privacy'];
         $id                           = $this->session->userdata('user_id');
+        
 
    // 
         $result              = $this->member_model->ten_level_table($id);
@@ -444,9 +447,7 @@ class Dashboard extends Members_Controller
 
 
     }
-    public function browse(){
-        $this->view('members/browse',$this->data);
-    }
+   
     public function search() {
 
         $this->form_validation->set_rules('typeahead', 'Search', 'required|trim');
@@ -616,5 +617,22 @@ class Dashboard extends Members_Controller
     }
 
  $this->load->view('members/invite_friends',$this->data);
+}
+
+// By New Code 
+ public function browse()
+{
+                $limit = $this->paging['per_page'];
+               
+                $offset = ($this->uri->segment(3) != '') ? $this->uri->segment(3) : 0;
+
+                //Addingg Setting Result to variable
+                $this->data['users'] = $this->member_model->get_all_users($limit, $offset);
+                $this->paging['base_url'] = site_url("dashboard/browse");
+                $this->paging['uri_segment'] = 3;
+                $this->paging['total_rows'] = count($this->member_model->get_all_users());
+                $this->pagination->initialize($this->paging);
+                 $this->load->view('members/browse', $this->data);
+                
 }
 }

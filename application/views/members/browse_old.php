@@ -17,12 +17,16 @@
     <link rel="stylesheet" href="<?php  echo base_url(); ?>public/css/screen.css" />
 
     <link rel="stylesheet" href="<?php  echo base_url(); ?>public/css/browse.css" />
-    <link rel="stylesheet" href="<?php  echo base_url(); ?>public/css/friends.css" />
+    <!--Jquery-1.11.1.min.js-->
+    <script src="<?php  echo base_url(); ?>public/js/jquery-1.11.3.min.js"></script>
 
-    <script src="<?php echo base_url(); ?>public/js/jquery-1.11.3.min.js"></script>
     <!--Bootstrap Jquery-->
-    <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
+    <script src="<?php  echo base_url(); ?>public/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="<?php  echo base_url(); ?>public/css/popup.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="<?php  echo base_url(); ?>public/css/error.css" />
+
+    <script src="<?php  echo base_url(); ?>public/js/typeahead.min.js"></script>
     <script>
         $(document).ready(function(){
             $('input.typeahead').typeahead({
@@ -34,12 +38,11 @@
     </script>
 
     <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/2.7.0/
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/
            html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.2.0/
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/
            respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body>
 
@@ -64,65 +67,50 @@
     </div>
 </div>
 <div class="clearfix"></div>
-
 <div class="container">
     <div class="row">
-        
-        <div class="col-sm-10">
-            <hr>
-            <?php if(isset($messages1)){echo $messages1;}?>
-           
+        <div class="col-sm-3">
 
-          <?php if(!empty($users)){
-            foreach($users as $rows){
-            
-            $time = strtotime($rows['last_activity_timestamp']);
+        </div>
+        <div class="col-sm-7">
+            <div class="posts-ads-container">
+                <div class="wall-posts">
+                    <form class="form-wrapper cf" method="post" action="<?php echo base_url('dashboard/search'); ?>">
+                        <div class="bs-example">
+                            <input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Enter First or Last Name">               <button type="submit">Search</button>
+                        </div>
+                    </form>
+                    <div class="col-sm-10">
+                        <?php if(isset($messages)){echo $messages;}?>
+                        <?php if(isset($result)){
+                           foreach($result as $rows){ ?>
+                            <li><div class="content"><img src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null) echo $rows['image']; else echo "no.png"; ?>" width="80px;" height="80px;"><?php echo $rows['first_name'].' '.$rows['last_name'] ?>
 
-            $curtime = time();
-            $status = "statusdeactive";
-           // p(intval($curtime-$time));
-            if(($curtime-$time) > 1200) { 
-                
-                $status = "statusactive";
-            }
-            
-                ?>
-            <div class="col-md-2">
-                <div class="productbox">
-                    <div class="imgthumb img-responsive">
-                        <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null) echo $rows['image']; else echo "no.png"; ?>">
-                    </div>
-                    <div class="<?php echo $status; ?>" title="Online Now" rel="online">Online</div>
-                    <div >
-                        <div class="text-center" style="font-size: 12px;"><strong> <?php echo $rows['first_name'].' '.$rows['last_name'] ?></strong></div>
-                        <a class="btn btn-info btn-xs" role="button" href="<?php
-                        echo base_url('dashboard/requestaccept').'?friend_id='.$rows['id'];
-                        ?>">Add Friend</a>  
+                                    <a href="<?php if($rows['status']==2){
+                                        echo "#";}
+                                    elseif($rows['status']==1) {
+                                        echo "#";}
+                                    elseif($rows['status']==0 || $rows['status']==null){
+  if($rows['id']!=$this->session->userdata('user_id')){
 
-                    </div>
+                     echo base_url('dashboard/request').'?friend_id='.$rows['id'];}else echo "#";} ?>"><button class="btn-primary pull-right"><?php if($rows['status']==2){
+                                                echo "friend";}
+                                            elseif($rows['status']==1) {
+                                                if($rows['friend_one']!=$this->session->userdata('user_id')){
+                                                    echo "friend request received";
+                                                }else
+                                                echo "friend request sent";}
+                                            elseif($rows['status']==0 || $rows['status']==null){ if($rows['id']!=$this->session->userdata('user_id')){
+                                                echo "Add friend";}else echo "me";
+                                            } ?></button> </a></div><br style="clear:both">  </li>
+                        <?php }}?>
+
+                        </div>
+                    <?php  echo $this->pagination->create_links();  ?>
                 </div>
             </div>
-            
-            
-   
-               <?php } ?>
-               
-               <?php if($this->pagination->create_links()){
-                //   p(51611);
-                   ?>
-    <div class="pagination">
-        <?php  $this->pagination->create_links(); ?></div>
-    <?php } ?>
-               
-               
-          <?php  }else {  ?>
-             <div class="form-message warning">
-      <p>No records found.</p>
-    </div>
-               <?php } ?>
+
         </div>
-
-
         <div class="col-sm-2">
             <div class="sidebar-ads">
                 <img src="<?php echo base_url(); ?>public/images/sidebar-ad.jpg" alt="Sidebar Ad" />
@@ -130,7 +118,6 @@
         </div>
     </div>
 </div>
-
 <br>
 <div class="clearfix"></div>
 <div class="footer">
@@ -145,7 +132,17 @@
 <div class="clearfix"></div>
 <div class="yellow-line"></div>
 <div id="overlay-back"></div>
+<!--<div id="popup">-->
+<!---->
+<!--    <h1>Hello --><?php //echo $first_name; ?><!--</h1>-->
+<!--    <h3>Welcome to MLM website!</h3>-->
+<!--    <p>-->
+<!--        Your Account is Not verified Please check your email and click on the activation link to Verify Your account.</p>-->
+<!---->
+<!--</div>-->
 
+
+<!--Marquee Jquery-->
 <script src="<?php  echo base_url(); ?>public/js/jquery.marquee.min.js"></script>
 
 <script>
@@ -192,6 +189,10 @@
 
     }
 </script>
+
+
+
+
 <script>
     window.onload; {
         var a=0;
@@ -212,5 +213,6 @@
 
         ;}
 </script>
+
 </body>
 </html>

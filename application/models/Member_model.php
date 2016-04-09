@@ -160,6 +160,45 @@ class Member_Model extends CI_Model
     {  $query= $this->db->query("SELECT `first_name`,`last_name`,`id` from `members` where `first_name` LIKE $key1 OR last_name Like $key2");
         return $query->result_array();
     }
+    
+    function get_all_users($limit = '', $offset = '', $sortby = 'first_name', $orderby = 'ASC') {
+        switch ($sortby) {
+            case 'first_name' : $sortby = 'first_name';
+                break;
+            case 'email' : $sortby = 'email';
+                break;
+            default : $sortby = 'first_name';
+                break;
+        }
+
+        //Ordering Data
+        
+        $this->db->order_by($sortby, 'RANDOM');
+
+        //Setting Limit for Paging
+        if ($limit != '' && $offset == 0) {
+            $this->db->limit($limit);
+        } else if ($limit != '' && $offset != 0) {
+            $this->db->limit($limit, $offset);
+        }
+        $UserID = $this->session->userdata('user_id');
+         $ids = array('1',$UserID);
+         $p = $this->db->where_not_in('id', $ids);
+         $query = $p->get_where('members');
+
+        
+      //  $query =  $this->db->get('members');
+        if ($query->num_rows() > 0) {
+            
+            
+          return  $array = $query->result_array();
+          //return array_rand($array,4);
+        } else {
+            return array();
+        }
+    }
+    
+    
     public function search_friend($key1,$key2,$start,$limit,$user_id)
     {
 //        $query= $this->db->query("SELECT `first_name`,`last_name`,`id`,`image` from `members` where first_name LIKE $key1 OR last_name Like $key2 Limit $start,$limit");

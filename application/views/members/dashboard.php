@@ -544,7 +544,7 @@ public/css/wall.css" />
     function like_get(post_id){
       
         $.post('<?php echo base_url('posts/get_like'); ?>',{post_id:post_id},function(data){
-            $('#post_id_'+post_id+'_likes').text(data);
+            $('#post_id_'+post_id+'_likes').text(data+'  Likes');
         });
     }
     

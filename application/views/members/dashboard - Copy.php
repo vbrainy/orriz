@@ -253,8 +253,7 @@ load->view('members/dashboard_top'); ?>
                 </div>
 					<span class="text-center">
 					<ul class="pagination pagination-lg">
-                        <?php  echo $this->
-                        pagination->create_links(); ?> </span>
+                        <?php  echo $this->pagination->create_links(); ?> </span>
             </div>
         </div>
         <div class="col-sm-2">

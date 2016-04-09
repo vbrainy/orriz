@@ -1644,4 +1644,38 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdc82c', end
     width: 100%;
     z-index: 2;
 }
+.statusactive
+{
+background: #78c363 none repeat scroll 0 0;
+    border: 0.15em solid white;
+    border-radius: 1em;
+    color: rgba(0, 0, 0, 0);
+    //display: none;
+    font-size: 0.8em;
+    height: 0.75em;
+    overflow: hidden;
+    position: absolute;
+    right: 0.5em;
+    text-indent: 100%;
+    top:
+0.5em;
+    width: 0.75em;
+}
+.statusdeactive{
+    background: #78c363 none repeat scroll 0 0;
+    border: 0.15em solid white;
+    border-radius: 1em;
+    color: rgba(0, 0, 0, 0);
+    display: none;
+    font-size: 0.8em;
+    height: 0.75em;
+    overflow: hidden;
+    position: absolute;
+    right: 0.5em;
+    text-indent: 100%;
+    top:
+0.5em;
+    width: 0.75em;
+    
+}
 
