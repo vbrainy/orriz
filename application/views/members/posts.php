@@ -1,118 +1,152 @@
-<?php if($posts!=null){foreach($posts as $rows){
-    ?>
-    <div class="detailBox">
-        <li>
-            <div class="row">
-                <div class="col-md-6">
-                        <div class="userImage">
-                            <a style="font-size: 15px;" href="#" target="_blank"><?php echo $rows['first_name'].'  '.$rows['last_name'];?></a>
-                            <img style="width: 50px; height: 50px; margin-left:5px; margin-top:5px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>" class="avatar">
-                        </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="pull-right">
-                        <b> <?php echo $rows['time']; ?></b>
-                    </div> 
-                </div>
-            </div>
-            
-<!--            <div class="userImage"><img style="width: 50px; height: 50px;" src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null){ echo $rows['image'];} else echo "no.png"; ?>
-						" class="avatar"><div class="pull-right">
-                    Posted on: <?php echo $rows['time']; ?>
-                </div> </div>-->
-            <div class="status">
-                
-                <div class="commentBox">
-
-                    <p class="taskDescription"><?php echo $rows['status'];?></p>
-                </div>
+<?php if ($posts != null) {
+     // $this->load->model('posts_model');
+    foreach ($posts as $rows) {
+        
+   //     p($rows,0);
+   $isLike =  $this->posts_model->find_like_on_post($this->session->userdata('user_id'), $rows['id']);
+   $likesUser = $this->posts_model->total_likes_user_details($rows['id']);
+  
+      
+        ?>
 
 
+        <div class="orriztime orriztime-items mvm no_more_post">
+            <a id="newsfeed-refresh-link" class="ng-binding"><span></span></a>
+            <div class="orriztime-line"></div>
+            <div class="orriztime-date"><?php echo $rows['time']; ?></div>
 
-                <?php if(($rows['photos'])!=null){ ?>
+            <div class="ofv oln ptl pbxs">
 
-                    <img class="external_pic" src="<?php echo base_url(); ?>public/images/pic/<?php echo $rows['photos'];?>
-								"> <?php } ?>
-                    
-                    <div class="clearfix"></div>
+                <a class="pull-left thumbnail orriztime-thumbnail" href="#">
+                    <img src="<?php echo base_url(); ?>public/images/thumb/<?php if (($rows['image']) != null) {
+            echo $rows['image'];
+        } else echo "no.png"; ?>" style="width: 75px; height: 75px;">
+                </a>
+                <div class="orriztime-media-body">
+                    <div class="orriztime-container">
+                        <a class="orriztime-user-name ng-binding" href="#"><?php echo $rows['first_name'] . '  ' . $rows['last_name']; ?></a>
+                        <span class="orriztime-user-info mls ng-binding"></span>
+
+        <?php if (($rows['photos']) != null) { ?>
+                            <div class="photos">
+                                <a href="#">
+                                    <div class="squarified ">
+                                        <img src="<?php echo base_url(); ?>public/images/pic/<?php echo $rows['photos']; ?>">
+                                    </div>
+                                </a>
 
 
-                <h5><a href="" onclick="like_add('<?php echo $rows['id']; ?>'); return false;"><span id="heart_<?php echo $rows['id']; ?>" class="glyphicon glyphicon-heart"></span></a> <span id="<?php echo "post_id_".$rows['id']."_likes"; ?>"><?php echo $rows['likes']; ?>
-								</span> People <span class="glyphicon glyphicon-heart"></span> </h5>
-
-
-
-
-                <div class="actionBox">
-                    <ul class="commentList" id="get_comment_<?php echo $rows['id']; ?>">                <span id="view_<?php echo $rows['id']; ?>"><a href="" onclick="get_comments('<?php echo $rows['id']; ?>'); return false;">View Comments</a></span>
-
-<!--                        <li>-->
-<!--                            <div class="commenterImage">-->
-<!--                                <img src="http://lorempixel.com/50/50/people/6" />-->
-<!--                            </div>-->
-<!--                            <div class="commentText">-->
-<!--                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>-->
-<!---->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <div class="commenterImage">-->
-<!--                                <img src="http://lorempixel.com/50/50/people/7" />-->
-<!--                            </div>-->
-<!--                            <div class="commentText">-->
-<!--                                <p class="">Hello this is a test comment and this comment is particularly very long and it goes on and on and on.</p> <span class="date sub-text">on March 5th, 2014</span>-->
-<!---->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <div class="commenterImage">-->
-<!--                                <img src="http://lorempixel.com/50/50/people/9" />-->
-<!--                            </div>-->
-<!--                            <div class="commentText">-->
-<!--                                <p class="">Hello this is a test comment.</p> <span class="date sub-text">on March 5th, 2014</span>-->
-<!---->
-<!--                            </div>-->
-<!--                        </li>Whats is in Your Mind?-->
-                    </ul>
-                    <form class="form-inline" role="form" id="commentbox_<?php echo $rows['id']; ?>" action="<?php echo base_url('posts/add_comment'); ?>" method="post" >
-                        <div class="row">
-                            <div class="col-md-10">
-                                <textarea cols="65" class="form-control text_post_comment" name="comment_<?php echo $rows['id']; ?>" id="comment_<?php echo $rows['id']; ?>" placeholder="Your comments" ></textarea>
                             </div>
-                            <div class="col-md-2">
-                            <button class="btn btn-success button_post_comment" href="javascript:void(0);" disabled="true" style="margin-top: 35px;" onclick="add_comment('<?php echo $rows['id']; ?>'); return false;">Submit</button>
+                                <?php } ?>
+                        <div class="truncate">
+                            <p class="orriztime-status"><?php echo ltrim($rows['status']); ?></p>
+
+                        </div>
+
+        <div class="orriztime-actions">
+
+                            <a class="action like" href="javascript:void(0);" onclick="like_add('<?php echo $rows['id']; ?>');
+                                    return false;"><i class="fa fa-thumbs-up"></i>
+                                <span id="heart_<?php echo $rows['id']; ?>" class=""><?php echo !empty($isLike) ? "Unlike" : "Like"; ?></span></a>                 
+
+
+                            <span class="bar"></span>
+                            <a class="action comment">
+                                <i class="fa fa-comment"></i>
+                                <span onclick="get_comments('<?php echo $rows['id']; ?>'); ">Comment</span>
+                            </a>
+                            <span class="bar"></span>
+                            <span class="time-ago">3 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="orriztime-comments">
+                        <div class="orriztime-likes">
+                            <div class="orriztime-comment-left tac pts">
+                                <i class="fa fa-thumbs-up orriztime-large-thumb"></i>
+                                <span id="<?php echo "post_id_" . $rows['id'] . "_likes"; ?>"> <?php echo $rows['likes']; ?>Likes
+                                </span>
+
+                            </div>
+                            <div class="orriztime-likers-list">
+                                <ul class="lstn mbn">
+                                    
+                                    <?php
+                                    if(!empty($likesUser)) {
+                                      foreach ($likesUser as $key => $value) { 
+                                          
+                                        $user = $this->posts_model->getUserDetails($value['member_id']);
+                                      
+                                          ?>
+                                         
+                                          <li class="dib pts">
+                                        <a ref="javascript:void(0);">
+                                            <img src="<?php echo base_url(); ?>public/images/pic/<?php  echo $user->image ; ?>" title="<?php echo $user->first_name.' '.$user->last_name; ?>" class="thumbnail" alt="<?php echo $user->first_name; ?>">
+                                        </a>
+                                    </li>
+                                          
+                                      
+                                   <?php  }   
+                                    }
+                                    ?>
+                                </ul>
                             </div>
                         </div>
-                        <span id="comment_<?php echo $rows['id']; ?>"></span>
-                    </form>
+
+      <div class="orriztime-comment read first">
+                            <div class="lh20" id="get_comment_<?php echo $rows['id']; ?>">
+                          
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="orriztime-comment post">
+                                    <div class="orriztime-comment-left">
+                                        <div class="thumbnail orriztime-comment-triangle-right">
+                                            <img src="<?php echo base_url(); ?>public/images/06.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="orriztime-container orriztime-comment-container">
+                                        <form class="form-inline" role="form" id="commentbox_<?php echo $rows['id']; ?>" action="<?php echo base_url('posts/add_comment'); ?>" method="post" >
+                                            <button class="btn btn-success  pvs phml pull-right mls button_post_comment"  href="javascript:void(0);"  disabled="true" onclick="add_comment('<?php echo $rows['id']; ?>');
+                                                    return false;">Comment</button>
+                                            <div class="textarea-wrapper">
+
+                                                <textarea placeholder="Add comment..." class="w100 dib ofh font16 text_post_comment" name="comment_<?php echo $rows['id']; ?>" id="comment_<?php echo $rows['id']; ?>" ></textarea>
+                                            </div>
+                                            <span id="comment_<?php echo $rows['id']; ?>"></span>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                    </div>
                 </div>
+
             </div>
 
-        </li>
-    </div>
-<?php }} //else echo "There is no post to show"; ?>
+        </div>
+
+
+    <?php }
+} //else echo "There is no post to show";  ?>
 
 <script>
-    $(document).ready(function(){
-//       
-//            console.log($('.status').length);
-//            $('.detailBox .text_post_comment').on('keypress','textarea', function (e) {
-//            console.log($(this).length);
-//            });
-//            
-//            console.log($('.actionBox').find('textarea').length);
+    $(document).ready(function () {
 
-            $('.text_post_comment').on('keyup change', function()
+        $('.text_post_comment').on('keyup change', function ()
+        {
+    
+        if ($(this).val().length)
             {
-                if($(this).val().length)
-                {
-                    $(this).parent().next().find('.button_post_comment').attr("disabled", false);
-                }
-                else
-                {
-                    $(this).parent().next().find('.button_post_comment').attr("disabled", true);
-                }
-            });
+                // $(this).find('.button_post_comment')
+                   $(this).parents('.textarea-wrapper').prev('.button_post_comment').attr("disabled", false);
+              
+            }
+            else
+            {
+                $(this).parents('.textarea-wrapper').prev('.button_post_comment').attr("disabled", true);
+            }
+        });
 
 //             $('.text_post_comment').keyup(function(e) {
 //                
@@ -124,5 +158,5 @@
 //                return false;
 //             }
 //         });
-         });
+    });
 </script>

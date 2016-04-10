@@ -124,19 +124,22 @@ class Posts extends Members_Controller
 
         }
     }
-    public function like_post(){
-        if(isset($_POST['post_id'])){
+    public function like_post() {
+        if (isset($_POST['post_id'])) {
 
-
-            $post_id=(int)$_POST['post_id'];
-            if($this->posts_model->posts_like($this->session->userdata('user_id'),$post_id)==true){
-                echo 'success';
-
-
-        }}
-
-
+// Find Like 
+            $post_id = (int) $_POST['post_id'];
+            $model = $this->posts_model->find_like_on_post($this->session->userdata('user_id'), $post_id);
+            if ($model == 0) {
+                $this->posts_model->posts_like($this->session->userdata('user_id'), $post_id);
+                echo "1" ;
+            } else {
+                $this->posts_model->remove_post_like($this->session->userdata('user_id'), $post_id);
+                echo "0" ;
+            }
+        }
     }
+
     public function get_like(){
 
         if(isset($_POST['post_id'])){
@@ -186,6 +189,9 @@ class Posts extends Members_Controller
     }
     public function ajex_load_posts(){
 
+        
+       
+        
         $this->load->model('posts_model');
         $start=$_POST['start'];
         $records_per_page=$_POST['records_per_page'];
@@ -194,6 +200,7 @@ class Posts extends Members_Controller
 
         if($privacy==1){
             $this->data['posts']=$this->posts_model->select_rows_privacy1($start, $records_per_page,$friends);
+        //    $this->data['is_my_posts'] =  
             $this->view('members/posts',$this->data);
         }elseif($privacy==2){
             $this->data['posts']=$this->posts_model->select_rows_privacy2($start, $records_per_page,$friends);

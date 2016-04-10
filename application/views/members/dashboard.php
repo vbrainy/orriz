@@ -9,7 +9,8 @@
 public/css/bootstrap.min.css" />
     <!--Custom Css-->
     <link rel="stylesheet" href="<?php echo base_url(); ?>
-public/css/style.css" />
+public/css/style.css" /> 
+    
     <!--Media Queries Css-->
     <link rel="stylesheet" href="<?php echo base_url(); ?>
 public/css/screen.css" />
@@ -19,6 +20,7 @@ public/css/screen.css" />
     <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>
 public/css/popup.css" rel="stylesheet" type="text/css" />
+    
     <link rel="stylesheet" href="<?php echo base_url(); ?>
 public/css/error.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>
@@ -74,6 +76,7 @@ public/css/wall.css" />
 //                    $start = $('.detailBox').length;
 //                }
                //console.log($start);
+               console.log(localStorage);
                 $.ajax({
                     url: "<?php echo base_url('posts/ajex_load_posts'); ?>",
                     type: "post",
@@ -101,13 +104,13 @@ public/css/wall.css" />
                             $("#posts").html('');
                         }
                         $("#posts").append(response);
-                        
+                        //alert(response);
                         var result = $('<div />').append(response).find('#posts').html();
                         
                         $('#posts').html(result);
 
                         
-                        if(!$('.detailBox').length)
+                        if(!$('.no_more_post').length)
                         {
                             $('#no_post_container').show();
                         }
@@ -123,13 +126,13 @@ public/css/wall.css" />
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 200) {
                     //$start=($current_page * $records_per_page)-$records_per_page;
                     if(localStorage.getItem('load_more_ready') == false) return;
-                    if(!$('.detailBox').length)
+                    if(!$('.no_more_post').length)
                     {
                         $start = 0;
                     }
                     else
                     {
-                        $start = $('.detailBox').length;
+                        $start = $('.no_more_post').length;
                     }
                     //if($current_page<=$number_of_pages)
                     if(localStorage.getItem('load_more_complete') == "0" && localStorage.getItem('load_more_ready') == "true")
@@ -185,8 +188,7 @@ public/css/wall.css" />
             }
             
             
-             $( '#myForm' )
-       .submit( function( e ) {
+             $( '#myForm' ).submit( function( e ) {
            $.ajax( {
                url: '<?php echo base_url('posts/status_insert'); ?>',
                type: 'POST',
@@ -220,7 +222,8 @@ public/css/wall.css" />
            } );
            e.preventDefault();
            }); 
-            
+          
+                
         });
     </script>
 </head>
@@ -238,7 +241,9 @@ public/css/wall.css" />
                     <div class="profile-picture">
                         <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(!empty($image)){ echo $image; }else echo "no.png"; ?>
 						" alt="Profile Picture" />
+                        
                     </div>
+                    <h3 class="wraptext" id="wraptextelement"></h3>
                 </div>
             </div>
         </div>
@@ -334,18 +339,19 @@ public/css/wall.css" />
                 
                 <br>
                 
-                <div id="no_post_container" style="display: none;">
-                    There is not posts available.
-                </div>
+             
                 <div id="wallz1" class="fb_wall">
                     <ul id="posts1">
                     </ul>
                 </div>
 <!--                <div id="amardev" ></div>-->
                 <div id="wallz" class="fb_wall">
-                       <ul id="posts">
+                    <div id="posts"> </div>
+                      
+                </div>
 
-                        </ul>
+   <div id="no_post_container" style="display: none;">
+                    There is not posts available.
                 </div>
 					<span class="text-center">
 					<ul class="pagination pagination-lg">
@@ -418,17 +424,32 @@ public/css/wall.css" />
         }else
             hour= time*60+minute-timezone;
         currenttime= hour/60;
+        console.log(currenttime);
+        var theDiv = document.getElementById("wraptextelement");
+        var content;
         if (currenttime >= 5 && currenttime < 10) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/morning.png)";
+            content = document.createTextNode("Morning");
         }else if(currenttime >= 10 && currenttime < 16){
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/afternoon.png)";
+            content = document.createTextNode("Afternoon");
         }else if (currenttime >= 16 && currenttime < 19){
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/evening.png)";
-        }else if(currenttime >= 19 && currenttime < 30) {
+            content = document.createTextNode("Evening");
+        }else if(currenttime >= 19 && currenttime < 24) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/night.png)";
-        }else if(currenttime >= 0 && currenttime < 5) {
+            content = document.createTextNode("Night");
+            theDiv.style.color = 'white';
+        }else if(currenttime >= 24 && currenttime < 30) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/night.png)";
+            content = document.createTextNode("Mid Night");
+            theDiv.style.color = 'white';
         }
+        var breakLine = document.createElement("br");
+        var dummyText =  document.createTextNode("Dummy text for 1 liner or 2 liner");
+        theDiv.appendChild(content);
+        theDiv.appendChild(breakLine);
+        theDiv.appendChild(dummyText);
     }
 </script>
 <script>
@@ -503,18 +524,28 @@ public/css/wall.css" />
 <script>
     
     function like_add(post_id){
+        
+        
+        
         $.post('<?php echo base_url('posts/like_post'); ?>',{post_id:post_id},function(data){
-            if(data=='success'){
+            
+        //   alert(data);
+            if(data=='1'){
                 like_get(post_id);
-                $('#heart_'+post_id).hide();
+                $('#hearts_'+post_id).hide();
+                  $('#heart_'+post_id).text('Unlike');
 
-            }else
-                $('#heart_'+post_id).hide();
+            }else{
+                  like_get(post_id);
+                $('#hearts_'+post_id).hide();
+            $('#heart_'+post_id).text('like');
+        }
         });
     }
     function like_get(post_id){
+      
         $.post('<?php echo base_url('posts/get_like'); ?>',{post_id:post_id},function(data){
-            $('#post_id_'+post_id+'_likes').text(data);
+            $('#post_id_'+post_id+'_likes').text(data+'  Likes');
         });
     }
     
