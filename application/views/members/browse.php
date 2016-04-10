@@ -81,7 +81,7 @@
             $curtime = time();
             $status = "statusdeactive";
            // p(intval($curtime-$time));
-            if(($time - $curtime) > 1200) { 
+            if(($time - $curtime) > 1200 && $rows['is_login']==1) { 
                 $status = "statusactive";
             }  ?>
             <div class="col-md-2">
