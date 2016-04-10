@@ -156,9 +156,17 @@ class Member_Model extends CI_Model
         $query = $this->db->get_where('members',['email'=>$email]);
         return $query->result_array();
     }
-    public function search_friends($key1,$key2)
-    {  $query= $this->db->query("SELECT `first_name`,`last_name`,`id` from `members` where `first_name` LIKE $key1 OR last_name Like $key2");
+    public function search_friends($key1,$key2,$key3)
+    { 
+        
+        if(!empty($key3)){
+            //p($key3);
+           $query= $this->db->query("SELECT `first_name`,`last_name`,`id`,`email` from `members` where `email` LIKE '$key3'");
+           return $query->result_array();  
+        }
+         $query= $this->db->query("SELECT `first_name`,`last_name`,`id`,`email` from `members` where `first_name` LIKE $key1 OR last_name LIKE $key2");
         return $query->result_array();
+       
     }
     
     function get_all_users($limit = '', $offset = '', $sortby = 'first_name', $orderby = 'ASC') {

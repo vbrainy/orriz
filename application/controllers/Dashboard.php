@@ -458,6 +458,8 @@ class Dashboard extends Members_Controller
         $this->form_validation->set_rules('typeahead', 'Search', 'required|trim');
         if ($this->form_validation->run() == True) {
       $string= $this->input->post('typeahead',TRUE);
+      
+      
         $array= explode(' ', $string);
        $query_parts = [];
         foreach ($array as $val) {
@@ -509,6 +511,18 @@ class Dashboard extends Members_Controller
     }
     public function suggestions(){
         $key=$_GET['key'];
+        
+     
+if (filter_var($key, FILTER_VALIDATE_EMAIL)) {
+      
+    $string1 = $string2 = "";
+    $string3 = $key;
+        $query=$this->member_model->search_friends($string1,$string2,$string3);
+         echo json_encode($query);
+}else{
+    
+
+        
         $array= explode(' ', $key);
         $query_parts = [];
         foreach ($array as $val) {
@@ -517,15 +531,32 @@ class Dashboard extends Members_Controller
         $string1 = implode(' OR first_name LIKE ', $query_parts);
         $string2 = implode(' OR last_name LIKE ', $query_parts);
         $result=[];
-        $query=$this->member_model->search_friends($string1,$string2);
+        $string3= "";
+        $query=$this->member_model->search_friends($string1,$string2,$string3);
 
         foreach($query as $row)
         {
             $result[] = $row['first_name'].' '.$row['last_name'];
         }
         echo json_encode($result);
+        
+        }
     }
     public function request(){
+        
+       $friend_two=$_REQUEST['friend_id'];
+        $friend_one=$this->session->userdata('user_id');
+        $data=['friend_one'=>$friend_one,
+        'friend_two'=>$friend_two];
+        $this->member_model->friend_requests($data);
+//        echo 1;        
+
+ redirect('dashboard/search');
+
+    }
+    
+        public function sentrequest(){
+        
        $friend_two=$_REQUEST['friend_id'];
         $friend_one=$this->session->userdata('user_id');
         $data=['friend_one'=>$friend_one,
@@ -533,9 +564,9 @@ class Dashboard extends Members_Controller
         $this->member_model->friend_requests($data);
         echo 1;        
 
-//  redirect('dashboard/search');
 
     }
+    
     public function friends(){
         $friend_requests= $this->member_model->friend_request_recieved($this->session->userdata('user_id'));
         if($friend_requests!=null){
@@ -626,8 +657,14 @@ class Dashboard extends Members_Controller
  $this->load->view('members/invite_friends',$this->data);
 }
 
-// By New Code 
  public function browse()
+{
+           
+             $this->load->view('members/browse', $this->data);    
+}
+
+// By New Code 
+ public function browsefriends()
 {
                 $limit = 10; //$this->paging['per_page'];
                
@@ -639,7 +676,7 @@ class Dashboard extends Members_Controller
                 $this->paging['uri_segment'] = 3;
                 $this->paging['total_rows'] = count($this->member_model->get_all_users());
                 $this->pagination->initialize($this->paging);
-                 $this->load->view('members/browse', $this->data);
+                 $this->load->view('members/browsefriends', $this->data);
                 
 }
 }

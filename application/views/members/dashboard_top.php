@@ -9,6 +9,7 @@
                         <li><a href="<?php echo base_url('dashboard/friends'); ?>">Friends</a></li>
                         <li><a href="<?php echo base_url('messages/index'); ?>">Messages</a></li>
                         <li><a href="<?php echo base_url('dashboard/browse'); ?>">Browse</a></li>
+                        <li><a target="_blank" href="<?php echo base_url('dashboard/browsefriends'); ?>">Browse Friends</a></li>
                     </ul>
                 </div>
                 <div class="right-menu">
