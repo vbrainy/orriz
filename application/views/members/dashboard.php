@@ -421,7 +421,6 @@ public/css/wall.css" />
         }else
             hour= time*60+minute-timezone;
         currenttime= hour/60;
-        console.log(currenttime);
         var theDiv = document.getElementById("wraptextelement");
         var content;
         if (currenttime >= 5 && currenttime < 10) {

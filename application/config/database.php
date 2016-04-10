@@ -74,11 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost; dbname=orrizmlm; charset=utf8;',
+	'dsn'	=> 'mysql:host=localhost; dbname=orriz_local; charset=utf8;',
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'orrizmlm',
+	'database' => 'orriz_local',
 //
 //	'dsn'	=> 'mysql:host=localhost; dbname=orrizmlm; charset=utf8;',
 //	'hostname' => 'localhost',

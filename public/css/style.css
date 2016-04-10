@@ -1087,3 +1087,26 @@ input.file-upload-btn:hover {
     position: absolute;
     z-index: 2;
 }
+
+/*Messages*/
+
+.inbox_rows{
+    background: #f0f0f0 none repeat scroll 0 0;
+    height: 80px;
+    margin: 0 auto;
+}
+.inbox_header
+{
+    background: #dfdfdf none repeat scroll 0 0;
+    height: 30px;
+    margin: 0 auto;
+}
+.hr_margin{
+    margin: 0px;
+}
+.image_resize{
+    height: 80px
+}
+.checkbox_message{
+    margin-left:40px !important;
+}
