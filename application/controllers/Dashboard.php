@@ -25,9 +25,13 @@ class Dashboard extends Members_Controller
         $this->data['active']         = $user_detail['0']['active'];
         $this->data['privacy']         = $user_detail['0']['privacy'];
         $id                           = $this->session->userdata('user_id');
+       $data      = [
+                'last_activity_timestamp' => date('Y-m-d h:i:s', time()),
+                'is_login' => 1
+               
+            ];
         
-
-   // 
+            $this->member_model->update_members_profile($id, $data);
         $result              = $this->member_model->ten_level_table($id);
         $this->data['table'] = $result;
         $table               = [];

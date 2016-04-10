@@ -21,7 +21,13 @@ class Messages extends Members_Controller {
         $this->data['privacy']         = $user_detail['0']['privacy'];
         $this->data['friends_list'] = $this->member_model->friend_list($this->session->userdata('user_id'));
         $id                           = $this->session->userdata('user_id');
+   $data      = [
+                'last_activity_timestamp' => date('Y-m-d h:i:s', time()),
+                'is_login' => 1
+               
+            ];
         
+            $this->member_model->update_members_profile($id, $data);      
         $this->data['sentbox_data'] = $this->messages_model->get_sent_messages($this->session->userdata('user_id'));
         $this->data['inbox_data'] = $this->messages_model->get_received_messages($this->session->userdata('user_id'));
         
