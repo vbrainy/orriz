@@ -33,6 +33,7 @@ spl_autoload_register('customCIAutoload');
 |
 */
 $config['base_url'] = '';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:&_\-'; 
 
 /*
 |--------------------------------------------------------------------------

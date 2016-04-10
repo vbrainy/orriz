@@ -85,7 +85,7 @@
                 $status = "statusactive";
             }  ?>
             <div class="col-md-2">
-                <div class="productbox">
+                <div class="browse_box">
                     <div class="imgthumb img-responsive">
                         <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null) echo $rows['image']; else echo "no.png"; ?>">
                     </div>

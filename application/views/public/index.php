@@ -28,7 +28,7 @@
      <![endif]-->
 </head>
 <body>
-	<div class="yellow-line"></div>
+    	<div class="yellow-line"></div>
 	<?php $this->load->view('public/top'); ?>
 	<div class="clearfix"></div>
 	<div class="container">
@@ -138,10 +138,12 @@
 	<div class="clearfix"></div>
 	<div class="footer-gallery">
 		<ul>
-			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-1.jpg" alt="Gallery Images" /></li>
+                        <?php foreach($members as $key=>$value) { if(!empty($value['image'])) { ?>
+    			<li><img src="<?php  echo base_url(); ?>public/images/thumb/<?php echo $value['image']; ?> " alt="Gallery Images" /></li>
+                        <?php } } ?>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-2.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-3.jpg" alt="Gallery Images" /></li>
-			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-4.jpg" alt="Gallery Images" /></li>
+<!--			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-4.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-5.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-1.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-2.jpg" alt="Gallery Images" /></li>
@@ -162,7 +164,7 @@
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-2.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-3.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-4.jpg" alt="Gallery Images" /></li>
-			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-5.jpg" alt="Gallery Images" /></li>
+			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-5.jpg" alt="Gallery Images" /></li>-->
 		</ul>
 	</div>
 	<div class="clearfix"></div>
@@ -180,7 +182,7 @@
 		gap: 0,
 		delayBeforeStart: 0,
 		direction: 'left',
-		duplicated: true
+		//duplicated: true
 		});
 		});
 	</script>

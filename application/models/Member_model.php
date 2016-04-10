@@ -13,7 +13,7 @@ class Member_Model extends CI_Model
 
 
     public function get()
-    {       $this->db->select(['id','parent_id','first_name']);
+    {       $this->db->select(['id','parent_id','first_name', 'image']);
             $query = $this->db->get('members');
             return $query->result_array();
     }

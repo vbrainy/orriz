@@ -5,7 +5,7 @@ class Index extends Members_Controller {
 
     public function __construct(){
         parent::__construct();
-
+        $this->load->model('member_model');
     }
     public function index($parent_id=false) {
         //check for reference id if there it is and store this in session.
@@ -19,7 +19,9 @@ class Index extends Members_Controller {
             // redirect them to the login page
             redirect(base_url('dashboard'), 'refresh');
         } else {
-            $this->load->view('public/index');
+            $this->data['members'] = $this->member_model->get();
+            
+            $this->load->view('public/index', $this->data);
         }
 
 

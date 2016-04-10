@@ -7,6 +7,7 @@
                         <li><a href="<?php echo base_url('dashboard'); ?>">HOME</a></li>
                         <li><a href="<?php echo base_url('dashboard/wallet'); ?>">WALLET</a></li>
                         <li><a href="<?php echo base_url('dashboard/friends'); ?>">Friends</a></li>
+                        <li><a href="<?php echo base_url('messages/index'); ?>">Messages</a></li>
                         <li><a href="<?php echo base_url('dashboard/browse'); ?>">Browse</a></li>
                     </ul>
                 </div>
