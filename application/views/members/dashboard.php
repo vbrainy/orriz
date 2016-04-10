@@ -424,7 +424,6 @@ public/css/wall.css" />
         }else
             hour= time*60+minute-timezone;
         currenttime= hour/60;
-        
         var theDiv = document.getElementById("wraptextelement");
         var content;
         if (currenttime >= 5 && currenttime < 10) {
@@ -436,12 +435,14 @@ public/css/wall.css" />
         }else if (currenttime >= 16 && currenttime < 19){
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/evening.png)";
             content = document.createTextNode("Evening");
-        }else if(currenttime >= 19 && currenttime < 30) {
+        }else if(currenttime >= 19 && currenttime < 24) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/night.png)";
             content = document.createTextNode("Night");
-        }else if(currenttime >= 0 && currenttime < 5) {
+            theDiv.style.color = 'white';
+        }else if(currenttime >= 24 && currenttime < 30) {
             document.getElementById("cover_picture").style.background = "url(<?php echo base_url(); ?>public/images/night.png)";
             content = document.createTextNode("Mid Night");
+            theDiv.style.color = 'white';
         }
         var breakLine = document.createElement("br");
         var dummyText =  document.createTextNode("Dummy text for 1 liner or 2 liner");

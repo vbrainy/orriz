@@ -7,6 +7,7 @@ class Dashboard extends Members_Controller
     public function __construct()
     {
         parent::__construct();
+        
         if ($this->ion_auth->logged_in() == false) {
             redirect(base_url());
         }
@@ -47,7 +48,7 @@ class Dashboard extends Members_Controller
         $table                       = array_unique($table);
         $total_refreal               = count($table);
         $this->data['total_referel'] = $total_refreal;
-    }
+    } 
     public function index()
     {   $this->data['ads'] = $this->ad_model->get_latest_10_ad();
         $this->load->library('pagination');

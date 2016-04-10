@@ -1641,16 +1641,38 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdc82c', end
     margin-left: 640px;
     margin-top: 55px;
     position: absolute;
-    width: 100%;
     z-index: 2;
 }
+
+/*Messages*/
+
+.inbox_rows{
+    background: #f0f0f0 none repeat scroll 0 0;
+    height: 80px;
+    margin: 0 auto;
+}
+.inbox_header
+{
+    background: #dfdfdf none repeat scroll 0 0;
+    height: 30px;
+    margin: 0 auto;
+}
+.hr_margin{
+    margin: 0px;
+}
+.image_resize{
+    height: 80px
+}
+.checkbox_message{
+    margin-left:40px !important;
+}
+
 .statusactive
 {
-background: #78c363 none repeat scroll 0 0;
+    background: #78c363 none repeat scroll 0 0;
     border: 0.15em solid white;
     border-radius: 1em;
     color: rgba(0, 0, 0, 0);
-    //display: none;
     font-size: 0.8em;
     height: 0.75em;
     overflow: hidden;
@@ -1658,7 +1680,7 @@ background: #78c363 none repeat scroll 0 0;
     right: 0.5em;
     text-indent: 100%;
     top:
-0.5em;
+    0.5em;
     width: 0.75em;
 }
 .statusdeactive{
@@ -1678,7 +1700,6 @@ background: #78c363 none repeat scroll 0 0;
     width: 0.75em;
     
 }
-
 .browse_box {
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -1686,4 +1707,3 @@ background: #78c363 none repeat scroll 0 0;
     position: relative;
     margin-top: 5px;
 }
-
