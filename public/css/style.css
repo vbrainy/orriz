@@ -1700,3 +1700,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdc82c', end
     width: 0.75em;
     
 }
+.browse_box {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    position: relative;
+    margin-top: 5px;
+}
