@@ -77,6 +77,66 @@ class Posts_model extends CI_Model
         $query=$this->db->query("insert into posts_like (member_id,post_id) select $user_id,$posts_id from posts where exists (select id from posts where id = $posts_id) and not exists (select id from posts_like where member_id=$user_id and post_id=$posts_id) LIMIT 1 ");
         return $this->db->insert_id();
     }
+   
+    
+    	function find_like_on_post($user_id,$posts_id)
+ 	{ 
+	  
+		 $this->db->select('*');
+		 $this->db->from('posts_like');
+		 $this->db->where( array('post_id' => $posts_id,'member_id'=>$user_id));
+		 $query = $this->db->get();
+		
+		if ($query->num_rows() > 0)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+ 	}
+        
+        
+        
+        	function remove_post_like($user_id,$posts_id)
+	{
+		if( $this->db->delete('posts_like', array('post_id' => $posts_id,'member_id'=>$user_id)) )
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+        
+        // Post Likers User details
+            public function total_likes_user_details($posts_id){
+                
+                
+                 $this->db->select('*');
+		 $this->db->from('posts_like');
+		 $this->db->where( array('post_id' => $posts_id));
+		 $query = $this->db->get();
+		
+		if ($query->num_rows() > 0)
+		{
+                  
+                    
+			 return $query->result_array();
+		}
+		else
+		{
+			return 0;
+		}
+     
+       
+    }
+        
+    
+    
+ 
     public function get_posts_like($posts_id){
         $query=$this->db->query("select COUNT(id) as likes from posts_like WHERE post_id = $posts_id");
         return $query->result_array();
@@ -99,4 +159,24 @@ class Posts_model extends CI_Model
 
         return $query->result_array();
     }
+    
+       public function getUserDetails($id){
+       
+	  
+		 $this->db->select('first_name,last_name,image');
+		 $this->db->from('members');
+		 $this->db->where( array('id' => $id));
+		 $query = $this->db->get();
+		
+		if ($query->num_rows() > 0)
+		{
+			return $query->row();
+		}
+		else
+		{
+			return array();
+		}
+ 	
+       
+   }
 }
