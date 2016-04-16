@@ -24,13 +24,7 @@
     <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js"></script>
 
     <script>
-        $(document).ready(function(){
-            $('input.typeahead').typeahead({
-                name: 'typeahead',
-                remote:'<?php echo base_url('dashboard/suggestions'); ?>?key=%QUERY',
-                limit : 10
-            });
-        });
+    
     </script>
 
     <!--[if lt IE 9]>
@@ -66,9 +60,59 @@
 <div class="clearfix"></div>
 
 <div class="container">
+    
     <div class="row">
         
         <div class="col-sm-10">
+            
+
+            <form class="form-inline browsefriendform" action="browsefriends" method="post">
+                
+        <div class="form-group">
+
+            <label class="sr-only" for="inputEmail">City</label>
+            <input type="text"  class="form-control" name="city" id="City" placeholder="City">
+
+        </div>
+ <div class="form-group">
+
+            <label class="sr-only" for="inputEmail">Country</label>
+            <input type="text" class="form-control" name="country" id="Country" placeholder="Country">
+             
+
+        </div>
+         <div class="form-group">
+
+            <label class="sr-only" for="inputEmail">Age</label>
+            <select name="start_age">
+                <option value=""><?php echo "AGE" ?></option>
+            <?php for($i=18;$i<=65;$i++) {?> 
+                 <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                <?php } ?>
+            </select> -
+             <select name="end_age">
+                 <option value=""><?php echo "AGE" ?></option>
+            <?php for($i=18;$i<=65;$i++) {?> 
+                 <option value="<?php echo $i; ?>" ><?php echo $i; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+         <div class="form-group">
+
+            <label class="sr-only" for="inputEmail">Gender</label>
+            <select name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+
+       
+
+        <button type="submit" class="btn btn-primary">Search</button>
+
+    </form>
+
+
             <hr>
             <?php if(isset($messages1)){echo $messages1;}?>
            
@@ -209,7 +253,7 @@
 </script>
 
 <script>
-    addFriendsUrl = "<?php echo base_url('dashboard/request'); ?>";
+    addFriendsUrl = "<?php echo base_url('dashboard/sentrequest'); ?>";
     $(document).on('click', '.btn_add_friend', function () {
         
       var friend_id = $(this).attr("id");
@@ -243,3 +287,4 @@
 
 </body>
 </html>
+
