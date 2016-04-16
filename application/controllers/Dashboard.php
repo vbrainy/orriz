@@ -665,8 +665,24 @@ if (filter_var($key, FILTER_VALIDATE_EMAIL)) {
 
 // By New Code 
  public function browsefriends()
-{
+{	                       if( $this->input->post() )
+				{
+					if(!empty($_POST['city']) || !empty($_POST['country']) || !empty($_POST['start_age']) ||!empty($_POST['end_age']) || !empty($_POST['gender'])  )
+                                        {
                 $limit = 10; //$this->paging['per_page'];
+
+                $offset = ($this->uri->segment(3) != '') ? $this->uri->segment(3) : 0;
+              
+                //Addingg Setting Result to variable
+                $this->data['users'] = $this->member_model->get_all_user_search($limit, $offset, $_POST);
+                $this->paging['base_url'] = site_url("dashboard/browse");
+                $this->paging['uri_segment'] = 3;
+                $this->paging['total_rows'] = count($this->member_model->get_all_user_search($limit, $offset, $_POST));
+                $this->pagination->initialize($this->paging);
+                $this->load->view('members/browsefriends', $this->data);
+            }
+                                }else{
+                                $limit = 10; //$this->paging['per_page'];
                
                 $offset = ($this->uri->segment(3) != '') ? $this->uri->segment(3) : 0;
 
@@ -677,6 +693,8 @@ if (filter_var($key, FILTER_VALIDATE_EMAIL)) {
                 $this->paging['total_rows'] = count($this->member_model->get_all_users());
                 $this->pagination->initialize($this->paging);
                  $this->load->view('members/browsefriends', $this->data);
+                    
+                                }
                 
 }
 }

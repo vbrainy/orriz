@@ -223,6 +223,85 @@ class Member_Model extends CI_Model
         }
     }
     
+    function get_all_user_search($limit = '', $offset = '', $Keywords ,$sortby = 'first_name', $orderby = 'ASC') {
+        switch ($sortby) {
+            case 'first_name' : $sortby = 'first_name';
+                break;
+            case 'email' : $sortby = 'email';
+                break;
+            default : $sortby = 'first_name';
+                break;
+        }
+        
+       
+
+        //Ordering Data
+        
+        $this->db->order_by($sortby, 'RANDOM');
+
+        //Setting Limit for Paging
+        if ($limit != '' && $offset == 0) {
+            $this->db->limit($limit);
+        } else if ($limit != '' && $offset != 0) {
+           
+            $this->db->limit($limit, $offset);
+        }
+        $UserID = $this->session->userdata('user_id');
+        
+       $query1 = $this->db->query("SELECT F.status,M.id
+                            FROM members M, friends F WHERE CASE
+                            WHEN F.friend_one = '$UserID'
+                            THEN F.friend_two = M.id
+                            WHEN F.friend_two= '$UserID'
+                            THEN F.friend_one= M.id
+                            END
+                           ");
+        $friendList =  $query1->result_array();
+        
+      //  p($friendList);
+          $ids = array('1',$UserID);
+        if(!empty($friendList)){
+            $ids =['1',$UserID];
+            foreach ($friendList as $key => $value) {
+                $ids[] = $value['id'];
+            }
+  
+        }
+        $startdate = date("Y-m-d", strtotime(" -18 year"));
+                $enddate = date("Y-m-d", strtotime(" -100 year"));
+       if (isset($Keywords['start_age']) || isset($Keywords['end_age'])) {
+           
+           
+            if (empty($Keywords['end_age']) && !empty($Keywords['start_age'])) {
+                $startdate = date("Y-m-d", strtotime(" -{$Keywords['end_age']} year"));
+                $enddate = date("Y-m-d", strtotime(" -100 year"));
+                p(1,0);
+                
+            }elseif (!empty($Keywords['end_age']) && empty($Keywords['start_age'])) {
+                $startdate = date("Y-m-d", strtotime(" -18 year"));
+                $enddate = date("Y-m-d", strtotime(" -{$Keywords['end_age']} year"));
+         
+                }elseif (!empty($Keywords['end_age']) && !empty($Keywords['start_age'])) {
+                $startdate = date("Y-m-d", strtotime(" -18 year"));
+                $enddate = date("Y-m-d", strtotime(" -{$Keywords['end_age']} year"));
+         
+            } 
+                }
+             
+         $p = $this->db->where_not_in('id', $ids);
+         $this->db->where("(city='{$Keywords['city']}' OR country='{$Keywords['country']}' OR gender='{$Keywords['gender']}' AND birthday BETWEEN '{$enddate}' AND '{$startdate}')", NULL, FALSE);
+         $query = $p->get_where('members');
+       
+         if ($query->num_rows() > 0) {
+            
+            
+          return  $array = $query->result_array();
+          //return array_rand($array,4);
+        } else {
+             
+            return array();
+        }
+    }
     
     public function search_friend($key1,$key2,$start,$limit,$user_id)
     {
