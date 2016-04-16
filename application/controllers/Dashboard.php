@@ -679,6 +679,7 @@ if (filter_var($key, FILTER_VALIDATE_EMAIL)) {
                 $this->paging['uri_segment'] = 3;
                 $this->paging['total_rows'] = count($this->member_model->get_all_user_search($limit, $offset, $_POST));
                 $this->pagination->initialize($this->paging);
+                $this->data['search_keywords'] = $_POST;
                 $this->load->view('members/browsefriends', $this->data);
             }
                                 }else{
