@@ -77,7 +77,7 @@
  <div class="form-group">
 
             <label class="sr-only" for="inputEmail">Country</label>
-            <input type="text" class="form-control" value="<?php echo ! empty($search_keywords) ? $search_keywords['country'] : ""  ?>" name="country" id="Country" placeholder="Search By City Country">
+            <input type="text" class="form-control" value="<?php echo ! empty($search_keywords) ? $search_keywords['country'] : ""  ?>" name="country" id="Country" placeholder="Search By Country Name">
              
 
         </div>
