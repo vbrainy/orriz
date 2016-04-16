@@ -80,32 +80,45 @@
                             <input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false" placeholder="Enter First or Last Name">               <button type="submit">Search</button>
                         </div>
                     </form>
-                    <div class="col-sm-10">
+                   
                         <?php if(isset($messages)){echo $messages;}?>
                         <?php if(isset($result)){
                            foreach($result as $rows){ ?>
-                            <li><div class="content"><img src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null) echo $rows['image']; else echo "no.png"; ?>" width="80px;" height="80px;"><?php echo $rows['first_name'].' '.$rows['last_name'] ?>
-
-                                    <a href="<?php if($rows['status']==2){
-                                        echo "#";}
-                                    elseif($rows['status']==1) {
-                                        echo "#";}
-                                    elseif($rows['status']==0 || $rows['status']==null){
-  if($rows['id']!=$this->session->userdata('user_id')){
-
-                     echo base_url('dashboard/request').'?friend_id='.$rows['id'];}else echo "javascript:void(0);";} ?>"><button class="btn-primary pull-right"><?php if($rows['status']==2){
+                        
+                            <div class="col-md-3">
+                <div class="browse_box">
+                    <div class="imgthumb img-responsive">
+                        <img src="<?php echo base_url(); ?>public/images/thumb/<?php if(($rows['image'])!=null) echo $rows['image']; else echo "no.png"; ?>">
+                    </div>
+                    <div >
+                        <div class="text-center" style="font-size: 12px;"><strong> <?php echo $rows['first_name'].' '.$rows['last_name'] ?></strong></div>
+                      
+                         <a id="<?php echo $rows['id']; ?>" href="javascript:void(0);" class="btn btn-info btn-xs btn_add_friend"><?php if($rows['status']==2){
                                                 echo "friend";}
                                             elseif($rows['status']==1) {
                                                 if($rows['friend_one']!=$this->session->userdata('user_id')){
-                                                    echo "friend request received";
+                                                    echo "Request received";
                                                 }else
-                                                echo "friend request sent";}
+                                                echo "Request sent";}
                                             elseif($rows['status']==0 || $rows['status']==null){ if($rows['id']!=$this->session->userdata('user_id')){
                                                 echo "Add friend";}else echo "me";
-                                            } ?></button> </a></div><br style="clear:both">  </li>
+                                            } ?></a>  
+
+                          
+
+                    </div>
+                </div>
+            </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                         
                         <?php }}?>
 
-                        </div>
+                    
                     <?php  echo $this->pagination->create_links();  ?>
                 </div>
             </div>
@@ -214,5 +227,38 @@
         ;}
 </script>
 
+<script>
+    addFriendsUrl = "<?php echo base_url('dashboard/sentrequest'); ?>";
+    $(document).on('click', '.btn_add_friend', function () {
+        
+      var friend_id = $(this).attr("id");
+      var class1 = this;
+     // alert(friend_id);
+     $.ajax({
+                url: addFriendsUrl,
+                cache: false,
+                // dataType: 'json',
+                data: {
+                    friend_id: friend_id,
+                },
+                type: 'POST',
+                async: false,
+                success: function (data) {
+                    
+                    if (data) {
+
+                         $(class1).html("Request Sent");
+                         $(class1).removeClass("btn_add_friend");
+                       
+                    }
+                }
+            });
+    
+    });
+
+</script>
+
+
 </body>
 </html>
+

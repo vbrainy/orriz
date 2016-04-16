@@ -158,13 +158,53 @@ class Member_Model extends CI_Model
     }
     public function search_friends($key1,$key2,$key3)
     { 
+        $UserID = $this->session->userdata('user_id');
+        
+       $query1 = $this->db->query("SELECT F.status,M.id
+                            FROM members M, friends F WHERE CASE
+                            WHEN F.friend_one = '$UserID'
+                            THEN F.friend_two = M.id
+                            WHEN F.friend_two= '$UserID'
+                            THEN F.friend_one= M.id
+                            END
+                           ");
+        $friendList =  $query1->result_array();
+        
+      //  p($friendList);
+          $ids = array('1',$UserID);
+        if(!empty($friendList)){
+            $ids =['1',$UserID];
+            foreach ($friendList as $key => $value) {
+                $ids[] = $value['id'];
+            }
+  
+        }
+        
+      $p = $this->db->select('*');
+        // $this->db->like('last_name',$key1,'both');
+       // $this->db->or_like('last_name', $key2,'both'); 
+       $this->db->where('(first_name LIKE '.$key1.' OR last_name LIKE '.$key2.')', NULL, FALSE);
+	$this->db->where_not_in('id', $ids);
+         $query = $p->get_where('members');
+        if ($query->num_rows() > 0) {
+            
+            
+          return  $array = $query->result_array();
+          //return array_rand($array,4);
+        } else {
+            return array();
+        }
+        
+        
+        
+        
         
         if(!empty($key3)){
             //p($key3);
            $query= $this->db->query("SELECT `first_name`,`last_name`,`id`,`email` from `members` where `email` LIKE '$key3'");
            return $query->result_array();  
         }
-         $query= $this->db->query("SELECT `first_name`,`last_name`,`id`,`email` from `members` where `first_name` LIKE $key1 OR last_name LIKE $key2");
+         $query= $this->db->query("SELECT `first_name`,`last_name`,`id`,`email` from `members` where `first_name` LIKE $key1 OR last_name LIKE $key2 AND id NOT IN ($ids)");
         return $query->result_array();
        
     }
