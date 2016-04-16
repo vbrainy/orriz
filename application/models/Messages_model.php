@@ -20,14 +20,14 @@ class Messages_model extends CI_Model
     public function get_sent_messages($id)
     {
         //$this->db->select('*');
-        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.sender_id WHERE msg.sender_id='.$id ." AND msg.is_archieved=0 GROUP BY thread_id LIMIT 0,1");
+        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.sender_id WHERE msg.sender_id='.$id ." AND msg.is_archieved=0");
         return $query->result_array();
     }
     
     public function get_received_messages($id)
     {
         //$this->db->select('*');
-        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.receiver_id WHERE msg.receiver_id='.$id." AND msg.is_archieved=0 GROUP BY thread_id LIMIT 0,1");
+        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.receiver_id WHERE msg.receiver_id='.$id." AND msg.is_archieved=0");
         return $query->result_array();
     }
     

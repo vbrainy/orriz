@@ -139,10 +139,10 @@
 	<div class="footer-gallery">
 		<ul>
                         <?php foreach($members as $key=>$value) { if(!empty($value['image'])) { ?>
-    			<li><img src="<?php  echo base_url(); ?>public/images/thumb/<?php echo $value['image']; ?> " alt="Gallery Images" /></li>
+                    <li><img class="image_adjust" src="<?php  echo base_url(); ?>public/images/thumb/<?php echo $value['image']; ?> " alt="Gallery Images" /></li>
                         <?php } } ?>
-			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-2.jpg" alt="Gallery Images" /></li>
-			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-3.jpg" alt="Gallery Images" /></li>
+<!--			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-2.jpg" alt="Gallery Images" /></li>
+			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-3.jpg" alt="Gallery Images" /></li>-->
 <!--			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-4.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-5.jpg" alt="Gallery Images" /></li>
 			<li><img src="<?php  echo base_url(); ?>public/images/gallery-image-1.jpg" alt="Gallery Images" /></li>
@@ -182,7 +182,7 @@
 		gap: 0,
 		delayBeforeStart: 0,
 		direction: 'left',
-		//duplicated: true
+		duplicated: true
 		});
 		});
 	</script>
