@@ -12,6 +12,15 @@ class Posts extends Members_Controller
         }
         $this->load->model('member_model');
         $this->load->model('posts_model');
+        
+            $id                           = $this->session->userdata('user_id');
+   $data      = [
+                'last_activity_timestamp' => date('Y-m-d h:i:s', time()),
+                'is_login' => 1
+               
+            ];
+        
+            $this->member_model->update_members_profile($id, $data);   
     }
 
     public function status_insert()

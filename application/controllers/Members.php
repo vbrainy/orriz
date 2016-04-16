@@ -9,6 +9,14 @@ class Members extends Members_Controller
         parent::__construct();
         $this->load->model('member_model');
         $this->load->helper('tree_helper');
+        $id                           = $this->session->userdata('user_id');
+         $data      = [
+                'last_activity_timestamp' => date('Y-m-d h:i:s', time()),
+                'is_login' => 1
+               
+            ];
+        
+            $this->member_model->update_members_profile($id, $data);
     }
     public function index()
     {
@@ -55,7 +63,14 @@ class Members extends Members_Controller
     Public function logout()
     {
 
-
+$id                           = $this->session->userdata('user_id');
+ $data      = [
+                'last_activity_timestamp' => date('Y-m-d h:i:s', time()),
+                'is_login' => 0
+               
+            ];
+        
+            $this->member_model->update_members_profile($id, $data);
         // log the user out
         $this->ion_auth->logout();
 
