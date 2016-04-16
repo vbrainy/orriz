@@ -71,13 +71,13 @@
         <div class="form-group">
 
             <label class="sr-only" for="inputEmail">City</label>
-            <input type="text"  class="form-control" name="city" id="City" placeholder="City">
+            <input type="text" value="<?php echo ! empty($search_keywords) ? $search_keywords['city'] : ""  ?>" class="form-control" name="city" id="City" placeholder="Search By City Name">
 
         </div>
  <div class="form-group">
 
             <label class="sr-only" for="inputEmail">Country</label>
-            <input type="text" class="form-control" name="country" id="Country" placeholder="Country">
+            <input type="text" class="form-control" value="<?php echo ! empty($search_keywords) ? $search_keywords['country'] : ""  ?>" name="country" id="Country" placeholder="Search By Country Name">
              
 
         </div>
@@ -85,15 +85,15 @@
 
             <label class="sr-only" for="inputEmail">Age</label>
             <select name="start_age">
-                <option value=""><?php echo "AGE" ?></option>
+                <option value=""><?php echo "Age Range" ?></option>
             <?php for($i=18;$i<=65;$i++) {?> 
-                 <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                <option  <?php if(isset($search_keywords['start_age']) && $search_keywords['start_age']  ==  $i ){ ?>selected="selected" <?php }  ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
                 <?php } ?>
             </select> -
              <select name="end_age">
-                 <option value=""><?php echo "AGE" ?></option>
+                 <option value=""><?php echo "Age Range" ?></option>
             <?php for($i=18;$i<=65;$i++) {?> 
-                 <option value="<?php echo $i; ?>" ><?php echo $i; ?></option>
+                 <option <?php if(isset($search_keywords['end_age']) && $search_keywords['end_age']  ==  $i ){ ?>selected="selected" <?php }  ?> value="<?php echo $i; ?>" ><?php echo $i; ?></option>
                 <?php } ?>
             </select>
         </div>
@@ -101,8 +101,8 @@
 
             <label class="sr-only" for="inputEmail">Gender</label>
             <select name="gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
+                <option <?php if(isset($search_keywords['gender']) && $search_keywords['gender'] == "male") {?> selected="selected" <?php } ?> value="male">Male</option>
+                <option <?php if(isset($search_keywords['gender']) && $search_keywords['gender'] == "female") {?> selected="selected" <?php } ?> value="female">Female</option>
             </select>
         </div>
 
