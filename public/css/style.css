@@ -1711,3 +1711,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdc82c', end
 {
     height: 80px; 
 }
+.browsefriendform{
+    padding-top: 10px;
+}

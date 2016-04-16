@@ -275,7 +275,7 @@ class Member_Model extends CI_Model
             if (empty($Keywords['end_age']) && !empty($Keywords['start_age'])) {
                 $startdate = date("Y-m-d", strtotime(" -{$Keywords['end_age']} year"));
                 $enddate = date("Y-m-d", strtotime(" -100 year"));
-                p(1,0);
+            
                 
             }elseif (!empty($Keywords['end_age']) && empty($Keywords['start_age'])) {
                 $startdate = date("Y-m-d", strtotime(" -18 year"));
