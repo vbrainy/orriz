@@ -20,27 +20,33 @@ class Messages_model extends CI_Model
     public function get_sent_messages($id)
     {
         //$this->db->select('*');
-        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.sender_id WHERE msg.sender_id='.$id ." AND msg.is_archieved=0");
+        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.receiver_id WHERE msg.sender_id='.$id ." AND msg.archieved_sender=0 GROUP BY thread_id");
         return $query->result_array();
     }
     
     public function get_received_messages($id)
     {
         //$this->db->select('*');
-        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.receiver_id WHERE msg.receiver_id='.$id." AND msg.is_archieved=0");
+        $query = $this->db->query('SELECT msg.*, mem.first_name, mem.last_name, mem.image FROM messages msg LEFT JOIN members mem ON mem.id = msg.sender_id WHERE msg.receiver_id='.$id." AND msg.archieved_receiver=0 GROUP BY thread_id");
         return $query->result_array();
     }
     
     public function define_thread($sen_id, $rec_id)
     {
-        $threadArr = [$sen_id, $rec_id];
-        sort($threadArr);
+        $threadArr = [$sen_id, $rec_id, time()];
+        //sort($threadArr);
         return implode('-', $threadArr);
     }
     
-    public function delete($id)
+    public function delete($id, $flagId)
     {
-        $this->db->query("UPDATE messages SET is_archieved=1 WHERE id=".$id);
+        //echo $flagId;exit;
+        $query = "UPDATE messages SET 
+            archieved_sender = CASE WHEN (sender_id=".$flagId." AND archieved_sender != 1) THEN 1 ELSE archieved_sender  END,
+            archieved_receiver = CASE WHEN (receiver_id=".$flagId." AND archieved_receiver != 1) THEN 1 ELSE archieved_receiver  END
+            WHERE id=".$id;
+        //echo $query;exit;
+        $this->db->query($query);
     }
     
     public function save_thread($data)
