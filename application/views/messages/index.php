@@ -57,7 +57,9 @@
         </div>
         <div class="clearfix">
         </div>
+        
         <div class="container">
+            <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
             <div class="row" style="height: 500px;">
                 <div class="col-md-12">
                     <div class="posts-ads-container">
@@ -68,7 +70,7 @@
                         </ul>
                         <div class="tab-content">
                             <div id="inbox_tab" class="tab-pane fade in active">
-                                <div class="row inbox_header">
+<!--                                <div class="row inbox_header">
                                     <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-2"><input type="checkbox" class="checkbox_message"/></div>
@@ -82,16 +84,65 @@
 
                                     </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <hr class="hr_margin">
                                 
-                                <?php if(isset($msgTypeFlag) && $msgTypeFlag == 'reply') { //print_R($thread_init); ?>
-                                <a href="<?php echo base_url() ?>messages/index">Back to Inbox</a>
+                                <?php if(isset($msgTypeFlag) && $msgTypeFlag == 'reply') { 
+                                    //echo $this->uri->segments['3'];exit;
+                                    $next = (isset($reply_page_data[array_search($this->uri->segments['3'], $reply_page_data)])) ? (isset($reply_page_data[array_search($this->uri->segments['3'], $reply_page_data) + 1]) ? $reply_page_data[array_search($this->uri->segments['3'], $reply_page_data) + 1] : '') : '';
+                                    $prev = (isset($reply_page_data[array_search($this->uri->segments['3'], $reply_page_data)])) ? (isset($reply_page_data[array_search($this->uri->segments['3'], $reply_page_data) - 1]) ? $reply_page_data[array_search($this->uri->segments['3'], $reply_page_data) - 1] : '')   : '';
+                                    
+                                    $prevUrl = (!empty($prev)) ? base_url() .'messages/reply/'.$prev : 'javascript:void(0);';
+                                    $nextUrl = (!empty($next)) ? base_url() .'messages/reply/'.$next : 'javascript:void(0);';
+                                    ?>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <a href="<?php echo base_url() ?>messages/index">Back to Inbox</a>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a href="<?php echo $prevUrl; ?>"><?php echo "< Prev"; ?></a> <a href="<?php echo $nextUrl; ?>"><?php echo "Next >"; ?></a> 
+                                    </div>
+                                </div>
+                                <br/>
+                                <?php foreach($thread_init as $key=> $value) { ?>
+                                
+                                <div class="row inbox_rows">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                From: 
+                                            </div>
+                                            <div class="col-md-10">
+                                                <?php echo $value['sen_first_name'] ?>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                To: 
+                                            </div>
+                                            <div class="col-md-10">
+                                                <?php echo $value['sen_first_name'] ?>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                Message: 
+                                            </div>
+                                            <div class="col-md-10">
+                                                <?php echo $value['message'] ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="hr_margin">
+                                <?php } ?>
+                                <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('validation_errors'); ?> </div>
                                 <form method="post" action="<?php echo base_url('messages/reply').'/'.$this->uri->segments['3'];?>">
                                     <input type="hidden" name="sender_id" value="<?php echo $this->session->userdata('user_id') ?>"/>
-                                    <input type="hidden" name="receiver_id" value="<?php echo $thread_end['sender_id'] ?>"/>
+                                    <input type="hidden" name="receiver_id" value="<?php echo ($this->session->userdata('user_id') == $thread_end['receiver_id']) ?  $thread_end['sender_id'] :  $thread_end['receiver_id'];  ?>"/>
                                     <input type="hidden" name="subject" value="<?php echo $thread_end['subject'] ?>"/>
                                     <input type="hidden" name="parent_id" value="<?php echo $thread_init[0]['id'] ?>"/>
+                                    <input type="hidden" name="thread_id" value="<?php echo $thread_init[0]['thread_id'] ?>"/>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="details-form-group">
@@ -122,13 +173,13 @@
                                         <div class="row">
                                             <div class="col-md-2"><input type="checkbox" class="checkbox_message"/></div>
                                             
-                                            <div class="col-md-2"><img class="image_resize" src="<?php echo base_url(); ?>public/images/thumb/<?php echo $value['image'] ?>" /></div>
+                                            <div class="col-md-2"><img class="image_resize" src="<?php echo base_url(); ?>public/images/thumb/<?php echo (!empty($value['image'])) ? $value['image'] : "no.png";  ?>" /></div>
                                             
                                             <div class="col-md-3"><?php echo $value['first_name'] ?></div>
                                             
                                             <div class="col-md-3"><?php echo $value['subject'] ?></div>
                                             
-                                            <div class="col-md-2"><a href="<?php echo base_url() ?>messages/reply/<?php echo $value['thread_id'] ?>">Reply</a> | <a href="<?php echo base_url() ?>messages/delete/<?php echo $value['id'] ?>">Delete</a></div>
+                                            <div class="col-md-2"><a href="<?php echo base_url() ?>messages/reply/<?php echo $value['thread_id'] ?>">Reply</a> | <a href="<?php echo base_url() ?>messages/delete/<?php echo $value['id'] ?>/<?php echo base64_encode($this->session->userdata('user_id')); ?>">Delete</a></div>
                                             
                                         </div>
                                     </div>
@@ -147,13 +198,14 @@
                             </div>
 
                             <div id="sentbox_tab" class="tab-pane fade">
+                                <?php if(!empty($sentbox_data)) { ?>
                                 <div class="row inbox_header">
                                     <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-2"><input type="checkbox" class="checkbox_message"/></div>
 
                                         <div class="col-md-2"></div>
-                                        <div class="col-md-3">From</div>
+                                        <div class="col-md-3">To</div>
 
                                         <div class="col-md-3">Subject</div>
 
@@ -163,20 +215,19 @@
                                     </div>
                                 </div>
                                 <hr class="hr_margin">
-                                <?php if(!empty($sentbox_data)) { ?>
                                 <?php foreach($sentbox_data as $key=>$value) { ?>
                                 <div class="row inbox_rows">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-2"><input type="checkbox" class="checkbox_message"/></div>
                                             
-                                            <div class="col-md-2"><img class="image_resize" src="<?php echo base_url(); ?>public/images/thumb/<?php echo $value['image'] ?>" /></div>
+                                            <div class="col-md-2"><img class="image_resize" src="<?php echo base_url(); ?>public/images/thumb/<?php echo (!empty($value['image'])) ? $value['image'] : "no.png";  ?>" /></div>
                                             
                                             <div class="col-md-3"><?php echo $value['first_name'] ?></div>
                                             
                                             <div class="col-md-3"><?php echo $value['subject'] ?></div>
                                             
-                                            <div class="col-md-2"><a href="<?php echo base_url() ?>messages/delete/<?php echo $value['id'] ?>">Delete</a></div>
+                                            <div class="col-md-2"><a href="<?php echo base_url() ?>messages/delete/<?php echo $value['id'] ?>/<?php echo base64_encode($this->session->userdata('user_id')); ?>">Delete</a></div>
                                             
                                         </div>
                                     </div>
@@ -192,7 +243,7 @@
                                 <?php } ?>
                             </div>
                             <div id="compose_tab" class="tab-pane fade">
-                                <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
+                                <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('validation_errors'); ?> </div>
                                 <form method="post" action="<?php echo base_url('messages/compose') ?>">
                                     <div class="row">
                                         <div class="col-md-2">

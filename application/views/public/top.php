@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="logo">
-                    <a href="<?php  echo base_url(); ?>public/index.html"><img src="<?php  echo base_url(); ?>public/images/logo.png" alt="Logo"/></a>
+                    <a href="<?php  echo base_url(); ?>"><img src="<?php  echo base_url(); ?>public/images/logo.png" alt="Logo"/></a>
                 </div>
             </div>
             <div class="col-sm-9">

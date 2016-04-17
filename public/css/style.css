@@ -1714,3 +1714,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdc82c', end
 .browsefriendform{
     padding-top: 10px;
 }
+#sentbox_tab{
+    padding: 0;
+}
+#inbox_tab{
+    padding: 0;
+}
