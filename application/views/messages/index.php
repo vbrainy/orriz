@@ -135,17 +135,18 @@
                                 </div> 
                                 <hr class="hr_margin">
                                 <?php } ?>
+                                <a href="">Delete All</a> 
                                 <?php } else { ?>
                                 <div class="row inbox_rows">
                                     <div class="col-md-12">
-                                      No Recornds Found  
+                                      No Records Found  
                                     </div>
                                 </div>
                                 <?php  } ?>
                                 <?php } ?>
                             </div>
 
-                            <div id="sentbox_tab" class="tab-pane fade" style="height: 71px;">
+                            <div id="sentbox_tab" class="tab-pane fade">
                                 <div class="row inbox_header">
                                     <div class="col-md-12">
                                     <div class="row">
@@ -185,12 +186,12 @@
                                 <?php } else { ?>
                                 <div class="row inbox_rows">
                                     <div class="col-md-12">
-                                      No Recornds Found  
+                                      No Records Found  
                                     </div>
                                 </div>
                                 <?php } ?>
                             </div>
-                            <div id="compose_tab" class="tab-pane fade" style="height: 71px;">
+                            <div id="compose_tab" class="tab-pane fade">
                                 <div style="color: #F8BB22">   <?php  echo  $this->session->flashdata('message'); ?> </div>
                                 <form method="post" action="<?php echo base_url('messages/compose') ?>">
                                     <div class="row">
